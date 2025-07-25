@@ -13,7 +13,7 @@ const team = [
     role: "Co-Founder, Business Lead & Quantitative Developer",
     desc: "Graduating at 16. Perfect SAT score. State physics champion (99%). Founded Acumen ($2.8M valuation). State debating champion.",
     year: "Co-Founder",
-    quote: "My final goal is to get a penthouse in NYC with all my guys at Untitled. Building the most profitable trading system in the world."
+    quote: "Driven by the challenge of creating the most sophisticated autonomous trading system in the world. Our mission is to revolutionize quantitative finance through cutting-edge AI technology."
   },
   {
     name: "Ghazi Kazmi",
@@ -79,7 +79,7 @@ const About = () => {
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">
                 <p className="w-full font-aeonik-bold tracking-tight text-center leading-[100%] text-[21px] mb-3">ABOUT </p>
-                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">Building the world's first AI-native <br></br> quantitative trading firm</h1>
+                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">The first AI-native quantitative trading firm</h1>
                 <Image
                   priority
                   src="/design/Untitled.png"
@@ -95,7 +95,7 @@ const About = () => {
                   </p>
                   <p className="leading-[150%]">In just months, we've developed a fully autonomous trading pipeline using LLM-based agents coordinated through our proprietary Model Context Protocol. Our system connects to 20+ real-time APIs, processes everything from satellite data to news sentiment, and executes trades in milliseconds.
                   </p>
-                  <p className="leading-[150%]">Our backtesting results speak for themselves: 2.74 Sharpe ratio, 214% annualized returns, outperforming industry giants with a fraction of their resources. We're not just building another trading algorithm—we're creating the first truly AI-native hedge fund.
+                  <p className="leading-[150%]">Our backtesting results speak for themselves: 2.74 Sharpe ratio, 214% annualized returns, outperforming industry giants with a fraction of their resources. We're not just building another trading algorithm; we're creating the first truly AI-native hedge fund.
                   </p>
                   <p className="leading-[150%]">Currently raising $398K AUD to transition from paper trading to live markets, with plans to obtain an Australian Financial Services License and scale globally. Our vision: prove that autonomous agents can consistently outperform traditional institutions.
                   </p>

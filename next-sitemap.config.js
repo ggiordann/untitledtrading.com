@@ -14,9 +14,6 @@ module.exports = {
         disallow: ['/api/*', '/_next/*', '/node_modules/*'],
       },
     ],
-    additionalSitemaps: [
-      'https://www.untitledtrading.com/sitemap.xml',
-    ],
   },
   transform: async (config, path) => {
     // Set custom priority for different pages

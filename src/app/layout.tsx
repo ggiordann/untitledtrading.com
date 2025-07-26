@@ -4,6 +4,7 @@ import "../styles/fonts.css";
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import { metadata } from './metadata';
+import SocialIcons from '../components/SocialIcons';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-black text-white">
         {children}
+        <SocialIcons />
       </body>
     </html>
   );

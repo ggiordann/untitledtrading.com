@@ -4,7 +4,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 
 const SocialIcons = () => {
   return (
-    <div className="fixed right-8 bottom-8 flex flex-col gap-6 z-50">
+    <div className="hidden md:flex fixed right-8 bottom-8 flex-col gap-6 z-50">
       <Link 
         href="https://x.com/UntitledTrading" 
         target="_blank" 

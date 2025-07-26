@@ -8,6 +8,8 @@ import { TracingBeam } from "../../components/ui/tracing-beam";
 import InteractiveLink from './InteractiveLink';
 import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 
+export { metadata } from './metadata';
+
 const team = [
   {
     name: "Giordan Masen",

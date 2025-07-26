@@ -5,6 +5,8 @@ import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import { metadata } from './metadata';
 import SocialIcons from '../components/SocialIcons';
+import StructuredData from '../components/StructuredData';
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,8 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-black text-white">
+        <StructuredData />
         {children}
         <SocialIcons />
+        <Analytics />
       </body>
     </html>
   );

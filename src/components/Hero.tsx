@@ -142,6 +142,12 @@ const Hero = () => {
                 className="w-full text-center md:text-left sm:w-auto"
                 event={`'aboutClicked', {property: 'value'}`}
               ></Button>
+              <Button 
+                text="CAREERS"
+                link="/careers"
+                className="w-full text-center md:text-left sm:w-auto"
+                event={`'careersClicked', {property: 'value'}`}
+              ></Button>
             </div>
           </div>
         </div>

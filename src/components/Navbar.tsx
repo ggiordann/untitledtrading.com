@@ -30,6 +30,10 @@ export const navLinks = [
     text: "ABOUT",
     link: "/about",
   },
+  {
+    text: "CAREERS",
+    link: "/careers",
+  },
 ];
 
 const Navbar = ({ minimal }: { minimal?: boolean }) => {

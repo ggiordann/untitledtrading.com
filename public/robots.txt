@@ -1,12 +1,12 @@
-# *
+# robots.txt for untitledtrading.com
 User-agent: *
 Allow: /
-Disallow: /api/*
-Disallow: /_next/*
-Disallow: /node_modules/*
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
 
-# Host
-Host: https://www.untitledtrading.com
-
-# Sitemaps
+# Sitemap
 Sitemap: https://www.untitledtrading.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

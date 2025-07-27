@@ -7,6 +7,7 @@ import { metadata } from './metadata';
 import SocialIcons from '../components/SocialIcons';
 import StructuredData from '../components/StructuredData';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <SocialIcons />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

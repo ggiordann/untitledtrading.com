@@ -62,12 +62,12 @@ const achievements = [
   },
   {
     name: "Backtesting Performance",
-    desc: "Achieved 2.74 Sharpe ratio and 214% annualised returns in 30-day paper trading simulation.",
+    desc: "Exceptional performance metrics in testing environments.",
     year: "2025",
   },
   {
     name: "Full Agentic Automation",
-    desc: "Built fully autonomous trading system replacing traditional quant teams with AI agents.",
+    desc: "Developed innovative trading infrastructure powered by artificial intelligence.",
     year: "2024",
   },
   {
@@ -95,7 +95,7 @@ const About = () => {
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">
                 <p className="w-full font-aeonik-bold tracking-tight text-center leading-[100%] text-[21px] mb-3">ABOUT </p>
-                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">The first AI-native quantitative trading firm</h1>
+                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">AI-native quantitative trading firm</h1>
                 <Image
                   priority
                   src="/design/Untitled.png"
@@ -105,15 +105,15 @@ const About = () => {
                   className="py-8"
                 />
                 <div className="w-full md:w-2/3 font-aeonik-thin tracking-[0.015em] space-y-10 items-center align-center justify-center text-[21px] md:text-[21px]">
-                  <p className="leading-[150%]">We're four 16-year-old founders redefining quantitative trading through autonomous AI agents. While traditional firms like Citadel and Renaissance rely on thousands of employees, we've built a system that operates 24/7 with just servers and code.
+                  <p className="leading-[150%]">We're four founders building the future of quantitative trading through artificial intelligence.
                   </p>
-                  <p className="leading-[150%]">Our journey began at a Jane Street recruiting event. Standing on our toes to blend in with university students, we discovered how mathematics and AI could transform finance. That night, we decided: why work for a quant firm when we could build a better one?
+                  <p className="leading-[150%]">Our journey began with a simple question: what if trading could be fundamentally reimagined?
                   </p>
-                  <p className="leading-[150%]">In just months, we've developed a fully autonomous trading pipeline using LLM-based agents coordinated through our proprietary Model Context Protocol. Our system connects to 20+ real-time APIs, processes everything from satellite data to news sentiment, and executes trades in milliseconds.
+                  <p className="leading-[150%]">We've developed proprietary technology that represents a paradigm shift in how markets can be approached.
                   </p>
-                  <p className="leading-[150%]">Our backtesting results speak for themselves: 2.74 Sharpe ratio, 214% annualised returns, outperforming industry giants with a fraction of their resources. We're not just building another trading algorithm; we're creating the first truly AI-native hedge fund.
+                  <p className="leading-[150%]">Our results demonstrate the potential of our approach. We're not just building another trading firm; we're creating something fundamentally different.
                   </p>
-                  <p className="leading-[150%]">Currently in talks with multiple VC firms for $398K AUD seed funding to transition from paper trading to live markets, with plans to obtain an Australian Financial Services License and scale globally. Our vision: prove that autonomous agents can consistently outperform traditional institutions.
+                  <p className="leading-[150%]">Currently securing funding to scale our operations and bring our vision to market.
                   </p>
                 </div>
               </div>

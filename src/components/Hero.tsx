@@ -89,9 +89,9 @@ const Hero = () => {
                 <h1 className="tracking-tight font-voyager-thin text-[48px] md:text-[42px] lg:text-[42px]">UNTITLED TRADING</h1>
               </div>
               <div className="w-full font-aeonik-regular space-y-8 leading-[1.5] text-[21px] md:text-[18px] lg:text-[18px]">
-                <p>AI-native quantitative trading firm leveraging autonomous agents for high-frequency trading.</p>
-                <p>We're building a fully autonomous trading system that replaces traditional quant teams with AI agents. Our system operates 24/7, going from market hypothesis to executed trade in minutes, not months.</p>
-                <p>Our proprietary agentic pipeline uses LLM-based agents coordinated through our Model Context Protocol, with access to 20+ real-time data sources.</p>
+                <p>AI-native quantitative trading firm.</p>
+                <p>We're building next-generation trading infrastructure powered by artificial intelligence.</p>
+                <p>Operating at the intersection of finance and cutting-edge AI technology.</p>
                 <p>contact: <Link href="mailto:contact@untitledtrading.com" className="border-b italic hover:text-blue-500 transition-all duration-400 hover:border-blue-500">contact@untitledtrading.com</Link></p>
               </div>
             </div>

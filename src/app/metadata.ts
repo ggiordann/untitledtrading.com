@@ -4,7 +4,7 @@ export const metadata = {
       template: "%s | Untitled Trading",
     },
     description:
-    "Untitled Trading is the first AI-native quantitative trading firm. Our autonomous agents achieve 2.74 Sharpe ratio & 214% returns, outperforming traditional hedge funds with cutting-edge AI technology.",
+    "Untitled Trading is an AI-native quantitative trading firm operating at the intersection of finance and cutting-edge technology.",
     keywords: ["quantitative trading", "AI trading", "high-frequency trading", "autonomous agents", "quant finance", "hedge fund", "algorithmic trading", "machine learning trading", "Adelaide fintech", "Australian quant fund", "LLM trading", "automated trading systems"],
     icons: {
       icon: '/favicon.ico',
@@ -30,7 +30,7 @@ export const metadata = {
         template: "%s | Untitled Trading",
       },
       description:
-      "The first AI-native quant firm. Our autonomous agents achieve 2.74 Sharpe ratio & 214% returns. Founded by four 16-year-olds revolutionizing finance.",
+      "AI-native quantitative trading firm. Next-generation trading infrastructure powered by artificial intelligence.",
     },
     openGraph: {
       url: "https://untitledtrading.com/",
@@ -42,7 +42,7 @@ export const metadata = {
         template: "%s | untitledtrading.com",
       },
       description:
-      "AI-native quantitative trading firm leveraging autonomous agents for high-frequency trading.",
+      "AI-native quantitative trading firm. Operating at the intersection of finance and cutting-edge technology.",
       images: [
         {
           url: "https://untitledtrading.com/head/embed.png",

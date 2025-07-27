@@ -6,6 +6,11 @@ export const metadata = {
     description:
     "Untitled Trading is the first AI-native quantitative trading firm. Our autonomous agents achieve 2.74 Sharpe ratio & 214% returns, outperforming traditional hedge funds with cutting-edge AI technology.",
     keywords: ["quantitative trading", "AI trading", "high-frequency trading", "autonomous agents", "quant finance", "hedge fund", "algorithmic trading", "machine learning trading", "Adelaide fintech", "Australian quant fund", "LLM trading", "automated trading systems"],
+    icons: {
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
+    },
     robots: {
       index: true,
       follow: true,

@@ -28,7 +28,7 @@ const jobs = [
     title: "Quantitative Researcher Intern",
     type: "Internship (3-6 months)",
     location: "Adelaide, AU / Remote",
-    shortDescription: "Research and develop cutting-edge trading strategies with our AI agents.",
+    shortDescription: "Research and develop cutting-edge trading strategies with our AI models.",
     keyPoints: [
       "Develop trading strategies",
       "Work with AI/ML models",

@@ -51,34 +51,11 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // No currently playing tracks found, get the most recent track from the first user
-    try {
-      const firstUser = lastfmUsers[0];
-      const response = await fetch(
-        `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${firstUser.lastfm_username}&api_key=${LASTFM_API_KEY}&format=json&limit=1`
-      );
-      
-      if (response.ok) {
-        const data = await response.json();
-        const track = data.recenttracks?.track?.[0];
-        
-        if (track) {
-          const currentTrack = {
-            name: track.name,
-            artist: track.artist['#text'] || track.artist,
-            album: track.album?.['#text'] || '',
-            image: track.image?.[2]?.['#text'] || '', // medium size image
-            nowPlaying: false,
-            timestamp: track.date?.uts ? parseInt(track.date.uts) * 1000 : Date.now(),
-            username: firstUser.username
-          };
-          
-          return NextResponse.json(currentTrack);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching recent track:', error);
-    }
+    // No currently playing tracks found
+    return NextResponse.json({ 
+      error: 'No music currently playing',
+      message: 'No team members are currently listening to music'
+    }, { status: 404 });
 
     return NextResponse.json({ error: 'No recent tracks found' }, { status: 404 });
   } catch (error) {

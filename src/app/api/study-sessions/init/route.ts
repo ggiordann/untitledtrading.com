@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { getDatabase } from '@/lib/database';
+import { runQuery, allQuery } from '@/lib/database';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 
@@ -20,19 +20,17 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = getDatabase();
-
   try {
-    const subjects = await db.all('SELECT * FROM subjects');
-    const activeSession = await db.get('SELECT * FROM study_sessions WHERE user_id = ? AND status = ?', [session.user.id, 'active']);
-    const activeSessions = await db.all('SELECT * FROM study_sessions WHERE status = ?', ['active']);
+    const subjects = await allQuery('SELECT * FROM subjects');
+    const activeSession = await allQuery('SELECT * FROM study_sessions WHERE user_id = ? AND status = ?', [session.user.id, 'active']);
+    const activeSessions = await allQuery('SELECT * FROM study_sessions WHERE status = ?', ['active']);
 
     // Since we can't easily call the last.fm endpoint from here, 
     // we'll let the client fetch that one separately.
 
     return NextResponse.json({
       subjects,
-      activeSession,
+      activeSession: activeSession[0] || null,
       activeSessions
     });
   } catch (error) {

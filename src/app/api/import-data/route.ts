@@ -94,7 +94,26 @@ const exportedData: {
   calendar_events: CalendarEvent[];
 } = {
   "subjects": [],
-  "lastfm_users": [],
+  "lastfm_users": [
+    {
+      id: "1",
+      user_id: "giordan",
+      lastfm_username: "ggiordann",
+      created_at: "2025-08-04 02:42:14"
+    },
+    {
+      id: "2", 
+      user_id: "kalan",
+      lastfm_username: "tweox",
+      created_at: "2025-08-04 02:42:14"
+    },
+    {
+      id: "3",
+      user_id: "ghazi", 
+      lastfm_username: "guss40",
+      created_at: "2025-08-04 11:15:00"
+    }
+  ],
   "users": [],
   "study_sessions": [],
   "tasks": [],

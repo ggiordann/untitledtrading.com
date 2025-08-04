@@ -57,7 +57,7 @@ const StudyTimer = () => {
   // Fetch current track from Last.fm
   const fetchCurrentTrack = async () => {
     try {
-      const response = await fetch('/api/lastfm-users/any-track');
+      const response = await fetch(`/api/lastfm-users/current-track?username=${encodeURIComponent(session?.user?.username || '')}`);
       if (response.ok) {
         const track = await response.json();
         setCurrentTrack(track);
@@ -334,7 +334,7 @@ const StudyTimer = () => {
                   </div>
                   <div className="text-left">
                     <div className="text-sm font-aeonik-medium text-white">
-                      {currentTrack.nowPlaying ? 'Now Playing' : 'Recently Played'}
+                      {currentTrack.nowPlaying ? 'Now Playing:' : 'Recently Played'}
                     </div>
                     <div className="text-sm text-gray-300">
                       {currentTrack.name} by {currentTrack.artist}
@@ -342,8 +342,8 @@ const StudyTimer = () => {
                   </div>
                 </div>
               ) : (
-                <div className="text-sm text-gray-400">
-                  No music detected
+                <div className="text-sm text-gray-400 text-center p-4">
+                  🎵 No music detected from your Last.fm
                 </div>
               )}
             </div>

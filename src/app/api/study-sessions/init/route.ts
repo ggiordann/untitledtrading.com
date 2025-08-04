@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { runQuery, allQuery } from '@/lib/database';
+import { runQuery, allQuery } from '@/lib/database-vercel';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 

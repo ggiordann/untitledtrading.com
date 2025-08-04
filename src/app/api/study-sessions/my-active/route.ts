@@ -15,8 +15,8 @@ export async function GET() {
       SELECT ss.*, u.username 
       FROM study_sessions ss
       JOIN users u ON ss.user_id = u.id
-      WHERE ss.user_id = (SELECT id FROM users WHERE username = ?) 
-      AND ss.status = "active"
+      WHERE ss.user_id = (SELECT id FROM users WHERE username = $1) 
+      AND ss.status = 'active'
     `, [session.user.username]);
 
     return NextResponse.json({ session: activeSession || null });

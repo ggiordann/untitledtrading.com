@@ -35,13 +35,13 @@ export async function PATCH(request: NextRequest) {
 
     // Update user's status, notes, and current playlist
     await runQuery(
-      'UPDATE users SET status = COALESCE(?, status), notes = COALESCE(?, notes), current_playlist = COALESCE(?, current_playlist) WHERE username = ?',
+      'UPDATE users SET status = COALESCE($1, status), notes = COALESCE($2, notes), current_playlist = COALESCE($3, current_playlist) WHERE username = $4',
       [status, notes, current_playlist, session.user.username]
     );
 
     // Get updated user data
     const updatedUser = await getQuery(
-      'SELECT id, username, status, notes, current_playlist FROM users WHERE username = ?',
+      'SELECT id, username, status, notes, current_playlist FROM users WHERE username = $1',
       [session.user.username]
     );
 

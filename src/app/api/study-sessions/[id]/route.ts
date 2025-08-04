@@ -50,65 +50,48 @@ export async function PATCH(
       // Update productivity stats based on session type
       const sessionHours = durationMinutes / 60;
       const today = new Date().toISOString().split('T')[0];
-      const isWorkout = studySession.session_type === 'workout';
 
-      // Check if stats exist for today
+      // Check if stats exist for today and update study_hours only
       const existingStats = await getQuery(
         'SELECT * FROM productivity_stats WHERE user_id = $1 AND date = $2',
         [session.user.id, today]
       );
 
       if (existingStats) {
-        if (isWorkout) {
-          await runQuery(
-            'UPDATE productivity_stats SET workout_hours = workout_hours + $1 WHERE id = $2',
-            [sessionHours, existingStats.id]
-          );
-        } else {
-          await runQuery(
-            'UPDATE productivity_stats SET study_hours = study_hours + $1 WHERE id = $2',
-            [sessionHours, existingStats.id]
-          );
-        }
+        await runQuery(
+          'UPDATE productivity_stats SET study_hours = study_hours + $1 WHERE id = $2',
+          [sessionHours, existingStats.id]
+        );
       } else {
-        if (isWorkout) {
-          await runQuery(
-            'INSERT INTO productivity_stats (user_id, date, workout_hours) VALUES ($1, $2, $3)',
-            [session.user.id, today, sessionHours]
-          );
-        } else {
-          await runQuery(
-            'INSERT INTO productivity_stats (user_id, date, study_hours) VALUES ($1, $2, $3)',
-            [session.user.id, today, sessionHours]
-          );
-        }
+        await runQuery(
+          'INSERT INTO productivity_stats (user_id, date, study_hours) VALUES ($1, $2, $3)',
+          [session.user.id, today, sessionHours]
+        );
       }
 
-      // Update leaderboard stats (only for study sessions, not workouts)
-      if (!isWorkout) {
-        const points = Math.floor(sessionHours * 20); // 20 points per hour
-        
-        // Check if leaderboard entry exists
-        const existingLeaderboard = await getQuery(
-          'SELECT * FROM leaderboard_stats WHERE user_id = $1',
-          [session.user.id]
+      // Update leaderboard stats
+      const points = Math.floor(sessionHours * 20); // 20 points per hour
+      // Check if leaderboard entry exists
+      const existingLeaderboard = await getQuery(
+        'SELECT * FROM leaderboard_stats WHERE user_id = $1',
+        [session.user.id]
+      );
+      if (existingLeaderboard) {
+        await runQuery(
+          `UPDATE leaderboard_stats
+           SET total_study_hours = total_study_hours + $1,
+               points = points + $2,
+               last_updated = CURRENT_TIMESTAMP
+           WHERE user_id = $3`,
+          [sessionHours, points, session.user.id]
         );
-
-        if (existingLeaderboard) {
-          await runQuery(`
-            UPDATE leaderboard_stats 
-            SET total_study_hours = total_study_hours + $1,
-                points = points + $2,
-                last_updated = CURRENT_TIMESTAMP
-            WHERE user_id = $3
-          `, [sessionHours, points, session.user.id]);
-        } else {
-          await runQuery(`
-            INSERT INTO leaderboard_stats 
-            (user_id, total_study_hours, points, last_updated)
-            VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
-          `, [session.user.id, sessionHours, points]);
-        }
+      } else {
+        await runQuery(
+          `INSERT INTO leaderboard_stats
+           (user_id, total_study_hours, points, last_updated)
+           VALUES ($1, $2, $3, CURRENT_TIMESTAMP)`,
+          [session.user.id, sessionHours, points]
+        );
       }
     }
 

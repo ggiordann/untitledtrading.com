@@ -26,8 +26,7 @@ export async function GET() {
       stats,
       today: todayStats || {
         tasks_completed: 0,
-        study_hours: 0,
-        workout_minutes: 0
+        study_hours: 0
       }
     });
   } catch (error) {
@@ -44,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { tasks_completed, study_hours, workout_minutes } = body;
+    const { tasks_completed, study_hours } = body;
 
     const today = new Date().toISOString().split('T')[0];
 
@@ -57,7 +56,6 @@ export async function POST(request: NextRequest) {
     let updateData: any = {};
     if (tasks_completed !== undefined) updateData.tasks_completed = tasks_completed;
     if (study_hours !== undefined) updateData.study_hours = study_hours;
-    if (workout_minutes !== undefined) updateData.workout_minutes = workout_minutes;
 
     if (existingStats) {
       // Update existing record
@@ -71,13 +69,12 @@ export async function POST(request: NextRequest) {
     } else {
       // Create new record
       await runQuery(
-        'INSERT INTO productivity_stats (user_id, date, tasks_completed, study_hours, workout_minutes) VALUES ($1, $2, $3, $4, $5)',
+        'INSERT INTO productivity_stats (user_id, date, tasks_completed, study_hours) VALUES ($1, $2, $3, $4)',
         [
-          session.user.id, 
-          today, 
-          updateData.tasks_completed || 0, 
-          updateData.study_hours || 0, 
-          updateData.workout_minutes || 0
+          session.user.id,
+          today,
+          updateData.tasks_completed || 0,
+          updateData.study_hours || 0
         ]
       );
     }

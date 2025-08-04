@@ -1,10 +1,10 @@
-import { getQuery, runQuery } from './database';
+import { getQuery, runQuery } from './database-vercel';
 import { google } from 'googleapis';
 
 export async function getUserGoogleAccessToken(userId: string): Promise<string | null> {
   try {
     const tokenData = await getQuery(
-      'SELECT access_token, refresh_token, expires_at FROM google_tokens WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
+      'SELECT access_token, refresh_token, expires_at FROM google_tokens WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1',
       [userId]
     );
 
@@ -51,8 +51,8 @@ async function refreshGoogleToken(userId: string, refreshToken: string): Promise
       // Update the database with new tokens
       await runQuery(
         `UPDATE google_tokens 
-         SET access_token = ?, expires_at = ?, updated_at = CURRENT_TIMESTAMP 
-         WHERE user_id = ?`,
+         SET access_token = $1, expires_at = $2, updated_at = CURRENT_TIMESTAMP 
+         WHERE user_id = $3`,
         [
           credentials.access_token,
           credentials.expiry_date || (Date.now() + 3600000), // Default to 1 hour if no expiry
@@ -80,7 +80,7 @@ export async function cleanupExpiredTokens(userId: string): Promise<void> {
     // Remove tokens that are expired and have no refresh token
     await runQuery(
       `DELETE FROM google_tokens 
-       WHERE user_id = ? AND expires_at < ? AND refresh_token IS NULL`,
+       WHERE user_id = $1 AND expires_at < $2 AND refresh_token IS NULL`,
       [userId, Date.now()]
     );
   } catch (error) {

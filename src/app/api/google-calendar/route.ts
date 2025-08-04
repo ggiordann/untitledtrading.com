@@ -34,10 +34,15 @@ export async function GET(request: NextRequest) {
 
         // Save tokens to database for the user
         if (tokens.access_token) {
-          const { runQuery } = await import('../../../../lib/database');
+          const { runQuery } = await import('../../../../lib/database-vercel');
           await runQuery(
-            `INSERT OR REPLACE INTO google_tokens (user_id, access_token, refresh_token, expires_at) 
-             VALUES (?, ?, ?, ?)`,
+            `INSERT INTO google_tokens (user_id, access_token, refresh_token, expires_at) 
+             VALUES ($1, $2, $3, $4)
+             ON CONFLICT (user_id) DO UPDATE SET
+             access_token = EXCLUDED.access_token,
+             refresh_token = EXCLUDED.refresh_token,
+             expires_at = EXCLUDED.expires_at,
+             updated_at = CURRENT_TIMESTAMP`,
             [
               session.user.id,
               tokens.access_token,

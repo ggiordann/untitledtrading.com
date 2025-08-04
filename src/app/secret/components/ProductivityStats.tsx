@@ -10,7 +10,6 @@ interface ProductivityStat {
   date: string;
   tasks_completed: number;
   study_hours: number;
-  workout_minutes: number;
   created_at: string;
 }
 
@@ -22,9 +21,8 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
   const { data: session } = useSession();
   const [stats, setStats] = useState<ProductivityStat[]>([]);
   const [todayStats, setTodayStats] = useState({
-    tasks_completed: 0,
-    study_hours: 0,
-    workout_minutes: 0
+  tasks_completed: 0,
+  study_hours: 0
   });
   const [loading, setLoading] = useState(false);
 
@@ -40,8 +38,7 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
         setStats(data.stats || []);
         setTodayStats(data.today || {
           tasks_completed: 0,
-          study_hours: 0,
-          workout_minutes: 0
+          study_hours: 0
         });
       }
     } catch (error) {
@@ -145,32 +142,26 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <CardSpotlight className="p-4 text-center">
+      <div className="flex justify-between gap-4 w-full max-w-4xl mx-auto">
+        <CardSpotlight className="flex-1 p-4 text-center">
           <div className="text-2xl font-aeonik-bold text-white">{streak}</div>
           <div className="text-sm font-aeonik-regular text-gray-400">Day Streak</div>
         </CardSpotlight>
         
-        <CardSpotlight className="p-4 text-center">
+        <CardSpotlight className="flex-1 p-4 text-center">
           <div className="text-2xl font-aeonik-bold text-white">
             {calculateTotal(weeklyStats, 'tasks_completed')}
           </div>
           <div className="text-sm font-aeonik-regular text-gray-400">Tasks This Week</div>
         </CardSpotlight>
         
-        <CardSpotlight className="p-4 text-center">
+        <CardSpotlight className="flex-1 p-4 text-center">
           <div className="text-2xl font-aeonik-bold text-white">
             {(calculateTotal(weeklyStats, 'study_hours')).toFixed(2)}h
           </div>
           <div className="text-sm font-aeonik-regular text-gray-400">Study This Week</div>
         </CardSpotlight>
         
-        <CardSpotlight className="p-4 text-center">
-          <div className="text-2xl font-aeonik-bold text-white">
-            {Math.round(calculateTotal(weeklyStats, 'workout_minutes') / 60 * 10) / 10}h
-          </div>
-          <div className="text-sm font-aeonik-regular text-gray-400">Workout This Week</div>
-        </CardSpotlight>
       </div>
 
       {/* Weekly vs Monthly Comparison */}
@@ -188,12 +179,6 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
               <span className="font-aeonik-regular text-gray-300">Study Hours/Day</span>
               <span className="font-aeonik-bold text-gray-200">
                 {calculateAverage(weeklyStats, 'study_hours')}h
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="font-aeonik-regular text-gray-300">Workout/Day</span>
-              <span className="font-aeonik-bold text-gray-200">
-                {calculateAverage(weeklyStats, 'workout_minutes')}min
               </span>
             </div>
           </div>
@@ -214,12 +199,6 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
                 {calculateAverage(monthlyStats, 'study_hours')}h
               </span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="font-aeonik-regular text-gray-300">Workout/Day</span>
-              <span className="font-aeonik-bold text-gray-200">
-                {calculateAverage(monthlyStats, 'workout_minutes')}min
-              </span>
-            </div>
           </div>
         </CardSpotlight>
       </div>
@@ -230,20 +209,15 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
         {stats.length > 0 ? (
           <div className="space-y-2">
             {stats.slice(0, 7).map((stat) => (
-              <div key={stat.id} className="flex items-center justify-between py-3 px-4 hover:bg-gray-900/30 rounded-lg transition-colors">
-                <span className="font-aeonik-medium text-gray-300">
-                  {new Date(stat.date).toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}
-                </span>
-                <div className="flex items-center space-x-6 text-sm font-aeonik-regular">
-                  <span className="text-gray-400">{stat.tasks_completed}</span>
-                  <span className="text-gray-400">{stat.study_hours.toFixed(1)}h</span>
-                  <span className="text-gray-400">{stat.workout_minutes}m</span>
+                <div key={stat.id} className="flex items-center justify-between py-3 px-4 hover:bg-gray-900/30 rounded-lg transition-colors">
+                  <span className="font-aeonik-medium text-gray-300">
+                    {new Date(stat.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                  </span>
+                  <div className="flex items-center space-x-4 text-sm font-aeonik-regular">
+                    <span className="text-gray-400">{stat.tasks_completed}</span>
+                    <span className="text-gray-400">{stat.study_hours.toFixed(1)}h</span>
+                  </div>
                 </div>
-              </div>
             ))}
           </div>
         ) : (

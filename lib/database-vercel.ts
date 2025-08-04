@@ -71,6 +71,19 @@ export const initDatabase = async () => {
         google_id TEXT,
         google_refresh_token TEXT,
         google_access_token TEXT
+      );
+    `);
+
+    // Google Tokens table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS google_tokens (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+        access_token TEXT NOT NULL,
+        refresh_token TEXT,
+        expires_at BIGINT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `);
 

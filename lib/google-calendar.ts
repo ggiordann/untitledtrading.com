@@ -31,6 +31,7 @@ export async function getUserGoogleAccessToken(userId: string): Promise<string |
     return null;
   }
 }
+}
 
 async function refreshGoogleToken(userId: string, refreshToken: string): Promise<string | null> {
   try {
@@ -39,10 +40,6 @@ async function refreshGoogleToken(userId: string, refreshToken: string): Promise
         ? 'https://www.untitledtrading.com/api/google-calendar'
         : 'http://localhost:3000/api/google-calendar'
   );
-
-  oauth2Client.setCredentials({ access_token: accessToken });
-  return google.calendar({ version: 'v3', auth: oauth2Client });
-}
 
   oauth2Client.setCredentials({ access_token: accessToken });
   return google.calendar({ version: 'v3', auth: oauth2Client });

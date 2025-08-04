@@ -1,14 +1,14 @@
+'use client';
+
 import React, { FC } from 'react';
 import Image from "next/image";
 import Link from 'next/link';
 import Button from '../../components/Button';
-import Navbar from "../../components/Navbar"
-import Footer from "../../components/Footer"
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { TracingBeam } from "../../components/ui/tracing-beam";
 import InteractiveLink from './InteractiveLink';
 import { FaInstagram, FaLinkedin } from 'react-icons/fa';
-
-export { metadata } from './metadata';
 
 const team = [
   {

@@ -13,8 +13,8 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 
-if (typeof window !== "undefined") {
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_API_KEY!, { api_host: 'https://us.i.posthog.com' });
+if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_API_KEY) {
+  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_.env.exampleKEY, { api_host: 'https://us.i.posthog.com' });
 }
 
 const handleNavClick = (linkText: string) => {

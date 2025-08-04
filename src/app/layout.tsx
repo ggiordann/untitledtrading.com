@@ -8,6 +8,7 @@ import SocialIcons from '../components/SocialIcons';
 import StructuredData from '../components/StructuredData';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Providers from '../components/Providers';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,13 +31,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="twitter:title" content={metadata.twitter.title.default} />
         <meta name="twitter:description" content={metadata.twitter.description} />
         <meta name="twitter:image" content={metadata.twitter.images} />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-black text-white">
-        <StructuredData />
-        {children}
-        <SocialIcons />
-        <Analytics />
-        <SpeedInsights />
+        <Providers>
+          <StructuredData />
+          {children}
+          <SocialIcons />
+          <Analytics />
+          <SpeedInsights />
+        </Providers>
       </body>
     </html>
   );

@@ -29,3 +29,58 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# productivity app database (secure) - ALL DATABASE FILES
+*.db
+*.sqlite
+*.sqlite3
+/lib/database.db
+/lib/database.sqlite
+/database/
+/database.db
+/database.sqlite
+/productivity.db
+
+# Database initialization script (contains passwords)
+/lib/initDatabase.js
+
+# Database reset script (contains passwords)
+reset-database.sh
+
+# Productivity hub documentation (contains passwords)
+PRODUCTIVITY_HUB_README.md
+
+# NextAuth.js
+.next-auth
+
+# ai code gen
+.claude/
+.github/
+
+# Additional security
+*.log
+*.pid
+*.seed
+*.pid.lock
+.nyc_output
+.coverage
+.cache
+
+# Database exports (contain sensitive data)
+database-export.json
+database-export.sql
+export-database.js
+
+# Deployment guides (may contain sensitive info)
+VERCEL-DEPLOYMENT-GUIDE.md
+
+# IDE
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
+
+# Logs
+logs
+*.log

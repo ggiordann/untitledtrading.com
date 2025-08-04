@@ -2,9 +2,14 @@
 
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
 import React, { MouseEvent as ReactMouseEvent, useState } from "react";
-import { CanvasRevealEffect } from "@/src/components/ui/canvas-reveal-effect";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const CanvasRevealEffect = dynamic(() => import("@/src/components/ui/canvas-reveal-effect").then(mod => ({ default: mod.CanvasRevealEffect })), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0" />
+});
 
 export const CardSpotlight = ({
   children,
@@ -72,7 +77,9 @@ export const CardSpotlight = ({
           />
         )}
       </motion.div>
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 

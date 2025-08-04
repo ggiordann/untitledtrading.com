@@ -31,14 +31,71 @@ export async function getUserGoogleAccessToken(userId: string): Promise<string |
     return null;
   }
 }
-}
 
 async function refreshGoogleToken(userId: string, refreshToken: string): Promise<string | null> {
   try {
     const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
       process.env.NODE_ENV === 'production' 
         ? 'https://www.untitledtrading.com/api/google-calendar'
         : 'http://localhost:3000/api/google-calendar'
+    );
+
+    oauth2Client.setCredentials({ refresh_token: refreshToken });
+    
+    // Refresh the access token
+    const { credentials } = await oauth2Client.refreshAccessToken();
+    
+    if (credentials.access_token) {
+      // Update the database with new tokens
+      await runQuery(
+        `UPDATE google_tokens 
+         SET access_token = $1, expires_at = $2, updated_at = CURRENT_TIMESTAMP 
+         WHERE user_id = $3`,
+        [
+          credentials.access_token,
+          credentials.expiry_date || (Date.now() + 3600000), // Default to 1 hour if no expiry
+          userId
+        ]
+      );
+      
+      return credentials.access_token;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error refreshing Google token:', error);
+    return null;
+  }
+}
+
+export async function hasGoogleCalendarAccess(userId: string): Promise<boolean> {
+  const token = await getUserGoogleAccessToken(userId);
+  return token !== null;
+}
+
+export async function cleanupExpiredTokens(userId: string): Promise<void> {
+  try {
+    // Remove tokens that are expired and have no refresh token
+    await runQuery(
+      `DELETE FROM google_tokens 
+       WHERE user_id = $1 AND expires_at < $2 AND refresh_token IS NULL`,
+      [userId, Date.now()]
+    );
+  } catch (error) {
+    console.error('Error cleaning up expired tokens:', error);
+  }
+}
+
+// Helper function to get Google Calendar client
+export async function getCalendarClient(accessToken: string) {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.NODE_ENV === 'production' 
+      ? 'https://www.untitledtrading.com/api/google-calendar'
+      : 'http://localhost:3000/api/google-calendar'
   );
 
   oauth2Client.setCredentials({ access_token: accessToken });
@@ -140,7 +197,8 @@ export async function getTodaysEventsSummary(accessToken: string): Promise<strin
       return "You have no events scheduled for today in Adelaide timezone.";
     }
 
-    let summary = `Today's schedule (Adelaide time):\n`;
+    let summary = `Today's schedule (Adelaide time):
+`;
     events.forEach((event, index) => {
       const start = event.start?.dateTime || event.start?.date;
       const title = event.summary || 'Untitled Event';
@@ -153,9 +211,11 @@ export async function getTodaysEventsSummary(accessToken: string): Promise<strin
           minute: '2-digit',
           hour12: true
         });
-        summary += `${index + 1}. ${title} at ${adelaideTime}\n`;
+        summary += `${index + 1}. ${title} at ${adelaideTime}
+`;
       } else {
-        summary += `${index + 1}. ${title} (All day)\n`;
+        summary += `${index + 1}. ${title} (All day)
+`;
       }
     });
 
@@ -200,7 +260,8 @@ export async function getWeeklyEventsSummary(accessToken: string): Promise<strin
       return "You have no events scheduled for this week in Adelaide timezone.";
     }
 
-    let summary = `This week's schedule (Adelaide time):\n`;
+    let summary = `This week's schedule (Adelaide time):
+`;
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const eventsByDay: { [key: string]: any[] } = {};
     
@@ -217,7 +278,9 @@ export async function getWeeklyEventsSummary(accessToken: string): Promise<strin
     });
 
     Object.keys(eventsByDay).forEach(day => {
-      summary += `\n${day}:\n`;
+      summary += `
+${day}:
+`;
       eventsByDay[day].forEach(event => {
         const start = event.start?.dateTime || event.start?.date;
         const title = event.summary || 'Untitled Event';
@@ -230,9 +293,11 @@ export async function getWeeklyEventsSummary(accessToken: string): Promise<strin
             minute: '2-digit',
             hour12: true
           });
-          summary += `  • ${title} at ${adelaideTime}\n`;
+          summary += `  • ${title} at ${adelaideTime}
+`;
         } else {
-          summary += `  • ${title} (All day)\n`;
+          summary += `  • ${title} (All day)
+`;
         }
       });
     });

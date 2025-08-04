@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
-import { allQuery, runQuery } from '../../../../lib/database';
+import { allQuery, runQuery } from '../../../../lib/database-vercel';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../lib/auth';
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const tasks = await allQuery('SELECT * FROM tasks WHERE user_id = ?', [session.user.id]);
+    const tasks = await allQuery('SELECT * FROM tasks WHERE user_id = $1', [session.user.id]);
     return NextResponse.json(tasks);
   } catch (error) {
     console.error('Error fetching tasks:', error);
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -33,11 +33,11 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = runQuery(
-      'INSERT INTO tasks (user_id, title, description, priority, status, subject, due_date, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+    const result = await runQuery(
+      'INSERT INTO tasks (user_id, title, description, priority, status, subject, due_date, completed) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', 
       [session.user.id, title, description || '', priority || 'medium', status || 'not_started', subject || '', due_date || '', false]
     );
-    const newTask = await allQuery('SELECT * FROM tasks WHERE id = ? AND user_id = ?', [result.lastInsertRowid, session.user.id]);
+    const newTask = await allQuery('SELECT * FROM tasks WHERE id = $1 AND user_id = $2', [result[0].id, session.user.id]);
     return NextResponse.json(newTask[0], { status: 201 });
   } catch (error) {
     console.error('Error creating task:', error);

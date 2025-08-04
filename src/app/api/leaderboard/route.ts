@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../lib/auth';
-import { allQuery } from '../../../../lib/database';
+import { allQuery } from '../../../../lib/database-vercel';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,51 +13,65 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const period = searchParams.get('period') || 'all-time';
 
-    let query = `
-      SELECT 
-        u.id,
-        u.username,
-        u.status,
-        u.notes,
-        COALESCE(MAX(ls.total_study_hours), 0) as total_study_hours,
-        COALESCE(MAX(ls.total_tasks_completed), 0) as total_tasks_completed,
-        COALESCE(MAX(ls.current_streak), 0) as current_streak,
-        COALESCE(MAX(ls.longest_streak), 0) as longest_streak,
-        COALESCE(MAX(ls.level), 1) as level,
-        COALESCE(MAX(ls.points), 0) as points
-      FROM users u
-      LEFT JOIN leaderboard_stats ls ON u.id = ls.user_id
-      GROUP BY u.id, u.username, u.status, u.notes
-    `;
+    let query;
 
     if (period === 'weekly') {
-      query += `
-        LEFT JOIN (
-          SELECT 
-            user_id,
-            SUM(study_hours) as week_study_hours,
-            SUM(tasks_completed) as week_tasks
-          FROM productivity_stats 
-          WHERE date >= date('now', '-7 days')
-          GROUP BY user_id
-        ) ws ON u.id = ws.user_id
-        ORDER BY COALESCE(MAX(ws.week_study_hours), 0) DESC, COALESCE(MAX(ws.week_tasks), 0) DESC
+      query = `
+        SELECT 
+          u.id,
+          u.username,
+          u.status,
+          u.notes,
+          COALESCE(SUM(ps.study_hours), 0) as total_study_hours,
+          COALESCE(SUM(ps.tasks_completed), 0) as total_tasks_completed,
+          COALESCE(ls.current_streak, 0) as current_streak,
+          COALESCE(ls.longest_streak, 0) as longest_streak,
+          COALESCE(ls.level, 1) as level,
+          COALESCE(ls.points, 0) as points
+        FROM users u
+        LEFT JOIN leaderboard_stats ls ON u.id = ls.user_id
+        LEFT JOIN productivity_stats ps ON u.id = ps.user_id 
+          AND ps.date >= date('now', '-7 days')
+        GROUP BY u.id, u.username, u.status, u.notes, ls.current_streak, ls.longest_streak, ls.level, ls.points
+        ORDER BY COALESCE(SUM(ps.study_hours), 0) DESC, COALESCE(SUM(ps.tasks_completed), 0) DESC
       `;
     } else if (period === 'monthly') {
-      query += `
-        LEFT JOIN (
-          SELECT 
-            user_id,
-            SUM(study_hours) as month_study_hours,
-            SUM(tasks_completed) as month_tasks
-          FROM productivity_stats 
-          WHERE date >= date('now', '-30 days')
-          GROUP BY user_id
-        ) ms ON u.id = ms.user_id
-        ORDER BY COALESCE(MAX(ms.month_study_hours), 0) DESC, COALESCE(MAX(ms.month_tasks), 0) DESC
+      query = `
+        SELECT 
+          u.id,
+          u.username,
+          u.status,
+          u.notes,
+          COALESCE(SUM(ps.study_hours), 0) as total_study_hours,
+          COALESCE(SUM(ps.tasks_completed), 0) as total_tasks_completed,
+          COALESCE(ls.current_streak, 0) as current_streak,
+          COALESCE(ls.longest_streak, 0) as longest_streak,
+          COALESCE(ls.level, 1) as level,
+          COALESCE(ls.points, 0) as points
+        FROM users u
+        LEFT JOIN leaderboard_stats ls ON u.id = ls.user_id
+        LEFT JOIN productivity_stats ps ON u.id = ps.user_id 
+          AND ps.date >= date('now', '-30 days')
+        GROUP BY u.id, u.username, u.status, u.notes, ls.current_streak, ls.longest_streak, ls.level, ls.points
+        ORDER BY COALESCE(SUM(ps.study_hours), 0) DESC, COALESCE(SUM(ps.tasks_completed), 0) DESC
       `;
     } else {
-      query += ' ORDER BY MAX(ls.points) DESC, MAX(ls.total_study_hours) DESC';
+      query = `
+        SELECT 
+          u.id,
+          u.username,
+          u.status,
+          u.notes,
+          COALESCE(ls.total_study_hours, 0) as total_study_hours,
+          COALESCE(ls.total_tasks_completed, 0) as total_tasks_completed,
+          COALESCE(ls.current_streak, 0) as current_streak,
+          COALESCE(ls.longest_streak, 0) as longest_streak,
+          COALESCE(ls.level, 1) as level,
+          COALESCE(ls.points, 0) as points
+        FROM users u
+        LEFT JOIN leaderboard_stats ls ON u.id = ls.user_id
+        ORDER BY COALESCE(ls.total_study_hours, 0) DESC, COALESCE(ls.points, 0) DESC
+      `;
     }
 
     const leaderboard = await allQuery(query);

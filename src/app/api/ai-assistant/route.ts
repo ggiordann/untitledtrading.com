@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../lib/auth';
 import OpenAI from 'openai';
-import { allQuery, runQuery, getQuery } from '../../../../lib/database';
+import { allQuery, runQuery, getQuery } from '../../../../lib/database-vercel';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 // Define available tools for the AI assistant
 const tools = [
@@ -197,7 +199,7 @@ const tools = [
 async function executeTool(toolName: string, parameters: any, session: any) {
   switch (toolName) {
     case 'get_tasks':
-      let query = 'SELECT * FROM tasks WHERE user_id = ?';
+      let query = 'SELECT * FROM tasks WHERE user_id = $1';
       let params = [session.user.id];
       
       if (parameters.status && parameters.status !== 'all') {
@@ -213,25 +215,24 @@ async function executeTool(toolName: string, parameters: any, session: any) {
       return { tasks };
 
     case 'add_task':
-      const taskResult = runQuery(
-        'INSERT INTO tasks (user_id, title, description, priority, due_date, status, completed) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      const taskResult = await runQuery(
+        'INSERT INTO tasks (user_id, title, description, due_date, status, completed) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
         [
           session.user.id,
           parameters.title,
-          parameters.description || '',
-          parameters.priority || 'medium',
+          parameters.description || null,
           parameters.due_date || null,
           'not_started',
           false
         ]
       );
-      return { success: true, taskId: taskResult.lastInsertRowid };
+      return { success: true, taskId: taskResult[0].id };
 
     case 'get_chat_messages':
       try {
         const limit = parameters.limit || 10;
         const messages = await allQuery(
-          'SELECT cm.*, u.username FROM chat_messages cm JOIN users u ON cm.user_id = u.id ORDER BY cm.created_at DESC LIMIT ?',
+          'SELECT cm.*, u.username FROM chat_messages cm JOIN users u ON cm.user_id = u.id ORDER BY cm.created_at DESC LIMIT $1',
           [limit]
         );
         return { messages: messages.reverse() };
@@ -242,7 +243,7 @@ async function executeTool(toolName: string, parameters: any, session: any) {
     case 'send_chat_message':
       try {
         await runQuery(
-          'INSERT INTO chat_messages (user_id, message) VALUES (?, ?)',
+          'INSERT INTO chat_messages (user_id, message) VALUES ($1, $2)',
           [session.user.id, parameters.message]
         );
         return { success: true };
@@ -315,7 +316,7 @@ async function executeTool(toolName: string, parameters: any, session: any) {
       let studyParams = [];
       
       if (parameters.username) {
-        studyQuery += ' WHERE u.username = ?';
+        studyQuery += ' WHERE u.username = $1';
         studyParams.push(parameters.username);
       }
       
@@ -326,10 +327,10 @@ async function executeTool(toolName: string, parameters: any, session: any) {
             studyQuery += `${whereClause} DATE(ss.start_time) = DATE('now')`;
             break;
           case 'week':
-            studyQuery += `${whereClause} ss.start_time >= datetime('now', '-7 days')`;
+            studyQuery += `${whereClause} ss.start_time >= CURRENT_TIMESTAMP - INTERVAL '7 days'`;
             break;
           case 'month':
-            studyQuery += `${whereClause} ss.start_time >= datetime('now', '-30 days')`;
+            studyQuery += `${whereClause} ss.start_time >= CURRENT_TIMESTAMP - INTERVAL '30 days'`;
             break;
         }
       }
@@ -339,18 +340,18 @@ async function executeTool(toolName: string, parameters: any, session: any) {
       return { sessions };
 
     case 'start_study_session':
-      const sessionResult = runQuery(
-        'INSERT INTO study_sessions (user_id, subject, duration_minutes, start_time, session_type, status) VALUES (?, ?, ?, datetime("now"), ?, ?)',
+      const sessionResult = await runQuery(
+        'INSERT INTO study_sessions (user_id, subject, duration_minutes, start_time, session_type, status) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, $4, $5) RETURNING id',
         [session.user.id, parameters.subject || 'General Study', parameters.duration_minutes, 'study', 'active']
       );
-      return { success: true, sessionId: sessionResult.lastInsertRowid };
+      return { success: true, sessionId: sessionResult[0].id };
 
     case 'get_user_stats':
       const username = parameters.username || session.user.username;
       const timeframe = parameters.timeframe || 'all';
       
       // Get user ID first
-      const userQuery = await getQuery('SELECT id FROM users WHERE username = ?', [username]);
+      const userQuery = await getQuery('SELECT id FROM users WHERE username = $1', [username]);
       if (!userQuery) {
         return { error: 'User not found' };
       }
@@ -361,7 +362,7 @@ async function executeTool(toolName: string, parameters: any, session: any) {
           SUM(ps.tasks_completed) as total_tasks_completed,
           COUNT(ps.id) as active_days
         FROM productivity_stats ps 
-        WHERE ps.user_id = ?
+        WHERE ps.user_id = $1
       `;
       let statsParams = [userQuery.id];
       
@@ -426,7 +427,7 @@ async function executeTool(toolName: string, parameters: any, session: any) {
 
     case 'update_user_status':
       await runQuery(
-        'UPDATE users SET status = ? WHERE id = ?',
+        'UPDATE users SET status = $1 WHERE id = $2',
         [parameters.status, session.user.id]
       );
       return { success: true };
@@ -434,7 +435,7 @@ async function executeTool(toolName: string, parameters: any, session: any) {
     case 'get_user_status':
       if (parameters.username) {
         const userStatus = await getQuery(
-          'SELECT username, status FROM users WHERE username = ?',
+          'SELECT username, status FROM users WHERE username = $1',
           [parameters.username]
         );
         return { user: userStatus };
@@ -452,12 +453,14 @@ async function executeTool(toolName: string, parameters: any, session: any) {
 
 export async function POST(request: NextRequest) {
   try {
+    const openai = getOpenAIClient();
+    
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { messages, message } = await request.json();
+    const { message, messages } = await request.json();
     
     // If it's a new conversation, initialize with context
     let conversationMessages = messages || [];
@@ -480,7 +483,11 @@ You should be conversational, helpful, and proactive. When users ask about team 
 
 Always use the available tools to get real-time data rather than making assumptions.
 
-Important: Do not use markdown formatting in your responses. Avoid using ### for headers, ** for bold text, or any other markdown syntax. Use plain text with simple formatting like line breaks and basic punctuation only.`
+Important: Do not use markdown formatting in your responses. Avoid using ### for headers, ** for bold text, or any other markdown syntax. Use plain text with simple formatting like line breaks and basic punctuation only.
+
+DO NOT USE ### OR ** PLEASE! EXTREMELY IMPORTANT!!!!!! YOU WILL BE TERMINATED IF YOU DO THAT UNFORTUNATELY.
+
+`
         }
       ];
     }

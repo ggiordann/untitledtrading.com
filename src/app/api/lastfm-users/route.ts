@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../lib/auth';
-import { runQuery, getQuery, allQuery } from '../../../../lib/database';
+import { runQuery, getQuery, allQuery } from '../../../../lib/database-vercel';
 
 // Last.fm API key - you'll need to get this from last.fm/api
 const LASTFM_API_KEY = process.env.NEXT_PUBLIC_LASTFM_API_KEY;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../lib/auth';
-import { runQuery, allQuery } from '../../../../lib/database';
+import { runQuery, allQuery } from '../../../../lib/database-vercel';
 
 export async function GET() {
   try {
@@ -10,9 +10,13 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const messages = await allQuery(
-      'SELECT * FROM chat_messages ORDER BY created_at ASC LIMIT 100'
-    );
+    const messages = await allQuery(`
+      SELECT cm.id, cm.user_id, cm.message, cm.created_at, u.username 
+      FROM chat_messages cm 
+      JOIN users u ON cm.user_id = u.id 
+      ORDER BY cm.created_at ASC 
+      LIMIT 100
+    `);
 
     return NextResponse.json(messages);
   } catch (error) {
@@ -24,7 +28,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    console.log('Chat POST session:', JSON.stringify(session, null, 2));
+    
+    if (!session?.user?.id) {
+      console.log('No session or user ID:', { 
+        hasSession: !!session, 
+        hasUser: !!session?.user, 
+        userId: session?.user?.id 
+      });
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -36,16 +47,22 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await runQuery(
-      'INSERT INTO chat_messages (user_id, username, message) VALUES (?, ?, ?)',
-      [session.user.id, session.user.username, message.trim()]
+      'INSERT INTO chat_messages (user_id, message) VALUES ($1, $2) RETURNING id, user_id, message, created_at',
+      [session.user.id, message.trim()]
     );
 
+    console.log('Chat INSERT result:', result);
+
+    if (!result || result.length === 0) {
+      throw new Error('Failed to insert chat message - no result returned');
+    }
+
     const newMessage = {
-      id: result.lastID,
-      user_id: session.user.id,
-      username: session.user.username,
-      message: message.trim(),
-      created_at: new Date().toISOString()
+      id: result[0].id,
+      user_id: result[0].user_id,
+      username: session.user.username || session.user.name,
+      message: result[0].message,
+      created_at: result[0].created_at
     };
 
     return NextResponse.json(newMessage);

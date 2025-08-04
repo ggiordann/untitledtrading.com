@@ -1,7 +1,7 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
-import { getQuery } from './database';
+import { getQuery } from './database-vercel';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -18,11 +18,11 @@ export const authOptions: AuthOptions = {
 
         try {
           const user = await getQuery(
-            'SELECT * FROM users WHERE username = ?',
+            'SELECT * FROM users WHERE username = $1',
             [credentials.username]
           );
 
-          if (!user || !await bcrypt.compare(credentials.password, user.password)) {
+          if (!user || !await bcrypt.compare(credentials.password, user.password_hash)) {
             return null;
           }
 
@@ -44,13 +44,14 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.username = user.username;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token.sub) {
-        session.user.id = token.sub;
+      if (token.id) {
+        session.user.id = token.id as string;
       }
       if (token.username) {
         session.user.username = token.username as string;

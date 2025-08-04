@@ -10,6 +10,11 @@ export const runQuery = async (query: string, params: any[] = []): Promise<any> 
   const client = await pool.connect();
   try {
     const result = await client.query(query, params);
+    // For INSERT/UPDATE/DELETE with RETURNING, return the rows
+    // For other operations, return metadata
+    if (query.toUpperCase().includes('RETURNING')) {
+      return result.rows;
+    }
     return { 
       lastInsertRowid: result.rows[0]?.id || null,
       changes: result.rowCount || 0
@@ -61,6 +66,7 @@ export const initDatabase = async () => {
         password_hash TEXT,
         status VARCHAR(50) DEFAULT 'Available',
         notes TEXT,
+        current_playlist TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         google_id TEXT,
         google_refresh_token TEXT,
@@ -168,6 +174,16 @@ export const initDatabase = async () => {
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES users(id),
         message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Playlists table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS playlists (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id),
+        name TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);

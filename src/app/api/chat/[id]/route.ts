@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../../lib/auth';
-import { runQuery, getQuery } from '../../../../../lib/database';
+import { runQuery, getQuery } from '../../../../../lib/database-vercel';
 
 export async function DELETE(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -18,7 +18,7 @@ export async function DELETE(
 
     // Verify message belongs to user
     const message = await getQuery(
-      'SELECT * FROM chat_messages WHERE id = ? AND user_id = ?',
+      'SELECT * FROM chat_messages WHERE id = $1 AND user_id = $2',
       [messageId, session.user.id]
     );
 
@@ -26,7 +26,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Message not found' }, { status: 404 });
     }
 
-    await runQuery('DELETE FROM chat_messages WHERE id = ?', [messageId]);
+    await runQuery('DELETE FROM chat_messages WHERE id = $1', [messageId]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

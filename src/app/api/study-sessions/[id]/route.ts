@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../../lib/auth';
-import { runQuery, getQuery } from '../../../../../lib/database';
+import { runQuery, getQuery } from '../../../../../lib/database-vercel';
 
 export async function PATCH(
   request: NextRequest,
@@ -9,18 +9,18 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { status } = await request.json();
+    const { status, actualDurationSeconds } = await request.json();
     const params = await context.params;
     const sessionId = parseInt(params.id);
 
     // Verify session belongs to user
     const studySession = await getQuery(
-      'SELECT * FROM study_sessions WHERE id = ? AND user_id = (SELECT id FROM users WHERE username = ?)',
-      [sessionId, session.user.username]
+      'SELECT * FROM study_sessions WHERE id = $1 AND user_id = $2',
+      [sessionId, session.user.id]
     );
 
     if (!studySession) {
@@ -29,19 +29,22 @@ export async function PATCH(
 
     if (status === 'completed') {
       const now = new Date().toISOString();
-      const startTime = new Date(studySession.start_time);
-      const durationMinutes = Math.floor((new Date().getTime() - startTime.getTime()) / (1000 * 60));
+      
+      // Use the actual duration from frontend (in seconds), convert to minutes
+      const durationMinutes = actualDurationSeconds ? Math.floor(actualDurationSeconds / 60) : 0;
+      
+      console.log('PATCH - Actual duration from frontend:', actualDurationSeconds, 'seconds =', durationMinutes, 'minutes');
 
       // Update session
       await runQuery(
-        'UPDATE study_sessions SET status = ?, end_time = ?, duration_minutes = ? WHERE id = ?',
+        'UPDATE study_sessions SET status = $1, end_time = $2, duration_minutes = $3 WHERE id = $4',
         ['completed', now, durationMinutes, sessionId]
       );
 
       // Update user status back to "Available"
       await runQuery(
-        'UPDATE users SET status = "Available" WHERE username = ?',
-        [session.user.username]
+        'UPDATE users SET status = $1 WHERE id = $2',
+        ['Available', session.user.id]
       );
 
       // Update productivity stats based on session type
@@ -51,32 +54,32 @@ export async function PATCH(
 
       // Check if stats exist for today
       const existingStats = await getQuery(
-        'SELECT * FROM productivity_stats WHERE user_id = (SELECT id FROM users WHERE username = ?) AND date = ?',
-        [session.user.username, today]
+        'SELECT * FROM productivity_stats WHERE user_id = $1 AND date = $2',
+        [session.user.id, today]
       );
 
       if (existingStats) {
         if (isWorkout) {
           await runQuery(
-            'UPDATE productivity_stats SET workout_hours = workout_hours + ? WHERE id = ?',
+            'UPDATE productivity_stats SET workout_hours = workout_hours + $1 WHERE id = $2',
             [sessionHours, existingStats.id]
           );
         } else {
           await runQuery(
-            'UPDATE productivity_stats SET study_hours = study_hours + ? WHERE id = ?',
+            'UPDATE productivity_stats SET study_hours = study_hours + $1 WHERE id = $2',
             [sessionHours, existingStats.id]
           );
         }
       } else {
         if (isWorkout) {
           await runQuery(
-            'INSERT INTO productivity_stats (user_id, date, workout_hours) VALUES ((SELECT id FROM users WHERE username = ?), ?, ?)',
-            [session.user.username, today, sessionHours]
+            'INSERT INTO productivity_stats (user_id, date, workout_hours) VALUES ($1, $2, $3)',
+            [session.user.id, today, sessionHours]
           );
         } else {
           await runQuery(
-            'INSERT INTO productivity_stats (user_id, date, study_hours) VALUES ((SELECT id FROM users WHERE username = ?), ?, ?)',
-            [session.user.username, today, sessionHours]
+            'INSERT INTO productivity_stats (user_id, date, study_hours) VALUES ($1, $2, $3)',
+            [session.user.id, today, sessionHours]
           );
         }
       }
@@ -84,16 +87,28 @@ export async function PATCH(
       // Update leaderboard stats (only for study sessions, not workouts)
       if (!isWorkout) {
         const points = Math.floor(sessionHours * 20); // 20 points per hour
-        await runQuery(`
-          INSERT OR REPLACE INTO leaderboard_stats 
-          (user_id, total_study_hours, points, last_updated)
-          VALUES (
-            (SELECT id FROM users WHERE username = ?),
-            COALESCE((SELECT total_study_hours FROM leaderboard_stats WHERE user_id = (SELECT id FROM users WHERE username = ?)), 0) + ?,
-            COALESCE((SELECT points FROM leaderboard_stats WHERE user_id = (SELECT id FROM users WHERE username = ?)), 0) + ?,
-            CURRENT_TIMESTAMP
-          )
-        `, [session.user.username, session.user.username, sessionHours, session.user.username, points]);
+        
+        // Check if leaderboard entry exists
+        const existingLeaderboard = await getQuery(
+          'SELECT * FROM leaderboard_stats WHERE user_id = $1',
+          [session.user.id]
+        );
+
+        if (existingLeaderboard) {
+          await runQuery(`
+            UPDATE leaderboard_stats 
+            SET total_study_hours = total_study_hours + $1,
+                points = points + $2,
+                last_updated = CURRENT_TIMESTAMP
+            WHERE user_id = $3
+          `, [sessionHours, points, session.user.id]);
+        } else {
+          await runQuery(`
+            INSERT INTO leaderboard_stats 
+            (user_id, total_study_hours, points, last_updated)
+            VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+          `, [session.user.id, sessionHours, points]);
+        }
       }
     }
 

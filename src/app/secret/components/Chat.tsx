@@ -10,13 +10,13 @@ interface ChatMessage {
   username: string;
   message: string;
   created_at: string;
+  isPending?: boolean;
 }
 
 const Chat = () => {
   const { data: session } = useSession();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,26 +40,51 @@ const Chat = () => {
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !session?.user) return;
 
-    setLoading(true);
+    const tempMessage: ChatMessage = {
+      id: Date.now(), // Temporary ID
+      user_id: parseInt(session.user.id as string),
+      username: session.user.username || session.user.name || 'You',
+      message: newMessage.trim(),
+      created_at: new Date().toISOString(),
+      isPending: true
+    };
+
+    // Add optimistic message immediately
+    setMessages(prev => [...prev, tempMessage]);
+    const messageToSend = newMessage.trim();
+    setNewMessage('');
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: newMessage }),
+        body: JSON.stringify({ message: messageToSend }),
       });
 
       if (response.ok) {
-        setNewMessage('');
-        fetchMessages(); // Refresh messages
+        const sentMessage = await response.json();
+        // Replace the pending message with the actual message from server
+        setMessages(prev => 
+          prev.map(msg => 
+            msg.id === tempMessage.id 
+              ? { ...sentMessage, isPending: false }
+              : msg
+          )
+        );
+      } else {
+        // Remove the optimistic message if sending failed
+        setMessages(prev => prev.filter(msg => msg.id !== tempMessage.id));
+        setNewMessage(messageToSend); // Restore the message
       }
     } catch (error) {
       console.error('Error sending message:', error);
-    } finally {
-      setLoading(false);
+      // Remove the optimistic message if sending failed
+      setMessages(prev => prev.filter(msg => msg.id !== tempMessage.id));
+      setNewMessage(messageToSend); // Restore the message
     }
   };
 
@@ -200,14 +225,14 @@ const Chat = () => {
                     key={message.id}
                     className={`flex mb-6 ${
                       message.username === session?.user?.username ? 'justify-end' : 'justify-start'
-                    }`}
+                    } ${message.isPending ? 'opacity-50' : ''}`}
                   >
                     <div
-                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg transition-opacity duration-200 ${
                         message.username === session?.user?.username
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-800 text-white'
-                      }`}
+                      } ${message.isPending ? 'opacity-75' : ''}`}
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-aeonik-medium opacity-75">
@@ -225,8 +250,14 @@ const Chat = () => {
                       <p className="font-aeonik-regular text-sm">
                         {renderMessageWithLinks(message.message)}
                       </p>
-                      <div className="text-xs opacity-50 mt-1">
-                        {formatTime(message.created_at)}
+                      <div className="text-xs opacity-50 mt-1 flex items-center gap-1">
+                        {message.isPending ? (
+                          <>
+                            <span className="animate-pulse">sending...</span>
+                          </>
+                        ) : (
+                          formatTime(message.created_at)
+                        )}
                       </div>
                     </div>
                   </div>
@@ -257,14 +288,13 @@ const Chat = () => {
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
             className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-aeonik-regular"
-            disabled={loading}
           />
           <button
             type="submit"
-            disabled={loading || !newMessage.trim()}
+            disabled={!newMessage.trim()}
             className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-aeonik-regular py-2 px-6 rounded-lg transition duration-200"
           >
-            {loading ? '...' : 'Send'}
+            Send
           </button>
         </form>
         <div className="flex justify-center mt-2">

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../../lib/auth';
-import { allQuery } from '../../../../../lib/database';
+import { allQuery } from '../../../../../lib/database-vercel';
 
 export async function GET() {
   try {
@@ -15,7 +15,7 @@ export async function GET() {
       SELECT ss.*, u.username 
       FROM study_sessions ss
       JOIN users u ON ss.user_id = u.id
-      WHERE ss.status = "active"
+      WHERE ss.status = 'active'
       ORDER BY ss.start_time DESC
     `);
 

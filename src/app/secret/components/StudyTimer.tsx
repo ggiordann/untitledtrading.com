@@ -51,6 +51,9 @@ const StudyTimer = () => {
   
   // New timer functionality
   const [timerType, setTimerType] = useState<TimerType>('study');
+  
+  // FORCE TIMER TO START FROM 0 - ignore database timestamps
+  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -101,40 +104,27 @@ const StudyTimer = () => {
     };
   }, []);
 
-  // Timer effect - only run when activeSession exists
+  // Timer effect - IGNORE DATABASE TIMESTAMPS, USE BROWSER TIME ONLY
   useEffect(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
 
-    if (activeSession) {
+    if (activeSession && sessionStartTime) {
       const updateTimer = () => {
-        const start = new Date(activeSession.start_time);
-        const now = new Date();
+        // Calculate elapsed from when session started in browser (NOT database)
+        const now = Date.now();
+        const elapsed = Math.floor((now - sessionStartTime) / 1000);
         
-        // Check if start_time is valid
-        if (isNaN(start.getTime())) {
-          console.error('Invalid start_time:', activeSession.start_time);
-          setTimeElapsed(0);
-          return;
-        }
+        console.log('FORCED TIMER - Browser start time:', new Date(sessionStartTime).toISOString());
+        console.log('FORCED TIMER - Current time:', new Date(now).toISOString());
+        console.log('FORCED TIMER - Elapsed seconds:', elapsed);
         
-        // Ensure start time is not in the future (more than 1 minute ahead)
-        if (start.getTime() > now.getTime() + 60000) {
-          console.error('Start time is in the future:', activeSession.start_time);
-          setTimeElapsed(0);
-          return;
-        }
-        
-        const elapsed = Math.floor((now.getTime() - start.getTime()) / 1000);
-        
-        // Only set if elapsed time is reasonable (between 0 and 24 hours)
-        if (elapsed >= 0 && elapsed < 86400) {
+        // Ensure positive elapsed time
+        if (elapsed >= 0) {
           setTimeElapsed(elapsed);
         } else {
-          console.error('Unreasonable elapsed time:', elapsed, 'seconds. Start:', activeSession.start_time, 'Now:', now.toISOString());
-          // Try to fix by assuming start time was meant to be recent
           setTimeElapsed(0);
         }
       };
@@ -154,7 +144,7 @@ const StudyTimer = () => {
         intervalRef.current = null;
       }
     };
-  }, [activeSession]);
+  }, [activeSession, sessionStartTime]);
 
   const fetchSubjects = async () => {
     try {
@@ -188,9 +178,12 @@ const StudyTimer = () => {
         if (data.session) {
           setActiveSession(data.session);
           setSelectedSubject(data.session.subject);
+          // Set browser start time to NOW instead of database time
+          setSessionStartTime(Date.now());
         } else {
           setActiveSession(null);
           setTimeElapsed(0);
+          setSessionStartTime(null);
         }
       }
     } catch (error) {
@@ -218,6 +211,8 @@ const StudyTimer = () => {
         const data = await response.json();
         setActiveSession(data.session);
         setTimeElapsed(0);
+        // FORCE timer start time to NOW in browser
+        setSessionStartTime(Date.now());
         fetchActiveSessions();
       }
     } catch (error) {
@@ -238,13 +233,16 @@ const StudyTimer = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          status: 'completed'
+          status: 'completed',
+          actualDurationSeconds: timeElapsed // Send the actual elapsed time from browser timer
         }),
       });
 
       if (response.ok) {
+        console.log('Session ended with actual duration:', timeElapsed, 'seconds');
         setActiveSession(null);
         setTimeElapsed(0);
+        setSessionStartTime(null); // Reset browser timer
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
           intervalRef.current = null;
@@ -398,9 +396,19 @@ const StudyTimer = () => {
         {activeSessions.length > 0 ? (
           <div className="space-y-3">
             {activeSessions.map((session) => {
-              const start = new Date(session.start_time);
-              const now = new Date();
-              const elapsed = Math.floor((now.getTime() - start.getTime()) / 1000);
+              // Use the same logic as the main timer for consistency
+              let elapsed = 0;
+              if (session.id === activeSession?.id && sessionStartTime) {
+                // For the current user's session, use browser timer
+                elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+              } else {
+                // For other users, use database timestamp (but cap at reasonable time)
+                const start = new Date(session.start_time);
+                const now = new Date();
+                const dbElapsed = Math.floor((now.getTime() - start.getTime()) / 1000);
+                // Cap at 24 hours to prevent display issues
+                elapsed = dbElapsed > 86400 ? 0 : Math.max(0, dbElapsed);
+              }
               
               return (
                 <div

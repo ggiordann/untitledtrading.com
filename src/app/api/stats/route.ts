@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../lib/auth';
-import { runQuery, allQuery, getQuery } from '../../../../lib/database';
+import { runQuery, allQuery, getQuery } from '../../../../lib/database-vercel';
 
 export async function GET() {
   try {
@@ -11,14 +11,14 @@ export async function GET() {
     }
 
     const stats = await allQuery(
-      'SELECT * FROM productivity_stats WHERE user_id = ? ORDER BY date DESC LIMIT 30',
+      'SELECT * FROM productivity_stats WHERE user_id = $1 ORDER BY date DESC LIMIT 30',
       [session.user.id]
     );
 
     // Get today's stats
     const today = new Date().toISOString().split('T')[0];
     const todayStats = await getQuery(
-      'SELECT * FROM productivity_stats WHERE user_id = ? AND date = ?',
+      'SELECT * FROM productivity_stats WHERE user_id = $1 AND date = $2',
       [session.user.id, today]
     );
 
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // Check if today's stats already exist
     const existingStats = await getQuery(
-      'SELECT * FROM productivity_stats WHERE user_id = ? AND date = ?',
+      'SELECT * FROM productivity_stats WHERE user_id = $1 AND date = $2',
       [session.user.id, today]
     );
 
@@ -61,17 +61,17 @@ export async function POST(request: NextRequest) {
 
     if (existingStats) {
       // Update existing record
-      const setClause = Object.keys(updateData).map(key => `${key} = ?`).join(', ');
+      const setClause = Object.keys(updateData).map((key, index) => `${key} = $${index + 1}`).join(', ');
       const values = Object.values(updateData);
       
       await runQuery(
-        `UPDATE productivity_stats SET ${setClause} WHERE user_id = ? AND date = ?`,
+        `UPDATE productivity_stats SET ${setClause} WHERE user_id = $${values.length + 1} AND date = $${values.length + 2}`,
         [...values, session.user.id, today]
       );
     } else {
       // Create new record
       await runQuery(
-        'INSERT INTO productivity_stats (user_id, date, tasks_completed, study_hours, workout_minutes) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO productivity_stats (user_id, date, tasks_completed, study_hours, workout_minutes) VALUES ($1, $2, $3, $4, $5)',
         [
           session.user.id, 
           today, 

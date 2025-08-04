@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../../lib/auth';
-import { getQuery } from '../../../../../lib/database';
+import { getQuery } from '../../../../../lib/database-vercel';
 
 const LASTFM_API_KEY = process.env.NEXT_PUBLIC_LASTFM_API_KEY;
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     // Get Last.fm username mapping
     const lastfmUser = await getQuery(
-      'SELECT lastfm_username FROM lastfm_users WHERE username = ?',
+      'SELECT lastfm_username FROM lastfm_users WHERE username = $1',
       [username]
     );
 

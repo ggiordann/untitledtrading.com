@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../../lib/auth';
-import { runQuery, getQuery } from '../../../../../lib/database';
+import { runQuery, getQuery } from '../../../../../lib/database-vercel';
 
 export async function PUT(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -20,7 +20,7 @@ export async function PUT(
 
     // Verify task belongs to user
     const task = await getQuery(
-      'SELECT * FROM tasks WHERE id = ? AND user_id = ?',
+      'SELECT * FROM tasks WHERE id = $1 AND user_id = $2',
       [taskId, session.user.id]
     );
 
@@ -29,7 +29,7 @@ export async function PUT(
     }
 
     await runQuery(
-      'UPDATE tasks SET completed = ? WHERE id = ?',
+      'UPDATE tasks SET completed = $1 WHERE id = $2',
       [completed, taskId]
     );
 
@@ -46,7 +46,7 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -55,7 +55,7 @@ export async function DELETE(
 
     // Verify task belongs to user
     const task = await getQuery(
-      'SELECT * FROM tasks WHERE id = ? AND user_id = ?',
+      'SELECT * FROM tasks WHERE id = $1 AND user_id = $2',
       [taskId, session.user.id]
     );
 
@@ -63,7 +63,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
     }
 
-    await runQuery('DELETE FROM tasks WHERE id = ?', [taskId]);
+    await runQuery('DELETE FROM tasks WHERE id = $1', [taskId]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

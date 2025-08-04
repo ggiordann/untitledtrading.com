@@ -35,68 +35,14 @@ export async function getUserGoogleAccessToken(userId: string): Promise<string |
 async function refreshGoogleToken(userId: string, refreshToken: string): Promise<string | null> {
   try {
     const oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
       process.env.NODE_ENV === 'production' 
-        ? 'https://untitledtrading.com/api/google-calendar'
+        ? 'https://www.untitledtrading.com/api/google-calendar'
         : 'http://localhost:3000/api/google-calendar'
-    );
-
-    oauth2Client.setCredentials({ refresh_token: refreshToken });
-    
-    // Refresh the access token
-    const { credentials } = await oauth2Client.refreshAccessToken();
-    
-    if (credentials.access_token) {
-      // Update the database with new tokens
-      await runQuery(
-        `UPDATE google_tokens 
-         SET access_token = $1, expires_at = $2, updated_at = CURRENT_TIMESTAMP 
-         WHERE user_id = $3`,
-        [
-          credentials.access_token,
-          credentials.expiry_date || (Date.now() + 3600000), // Default to 1 hour if no expiry
-          userId
-        ]
-      );
-      
-      return credentials.access_token;
-    }
-    
-    return null;
-  } catch (error) {
-    console.error('Error refreshing Google token:', error);
-    return null;
-  }
-}
-
-export async function hasGoogleCalendarAccess(userId: string): Promise<boolean> {
-  const token = await getUserGoogleAccessToken(userId);
-  return token !== null;
-}
-
-export async function cleanupExpiredTokens(userId: string): Promise<void> {
-  try {
-    // Remove tokens that are expired and have no refresh token
-    await runQuery(
-      `DELETE FROM google_tokens 
-       WHERE user_id = $1 AND expires_at < $2 AND refresh_token IS NULL`,
-      [userId, Date.now()]
-    );
-  } catch (error) {
-    console.error('Error cleaning up expired tokens:', error);
-  }
-}
-
-// Helper function to get Google Calendar client
-export async function getCalendarClient(accessToken: string) {
-  const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.NODE_ENV === 'production' 
-      ? 'https://untitledtrading.com/api/google-calendar'
-      : 'http://localhost:3000/api/google-calendar'
   );
+
+  oauth2Client.setCredentials({ access_token: accessToken });
+  return google.calendar({ version: 'v3', auth: oauth2Client });
+}
 
   oauth2Client.setCredentials({ access_token: accessToken });
   return google.calendar({ version: 'v3', auth: oauth2Client });

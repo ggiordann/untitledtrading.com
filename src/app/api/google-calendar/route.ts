@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     // Handle OAuth callback
     if (code) {
       const redirectUri = process.env.NODE_ENV === 'production' 
-        ? 'https://untitledtrading.com/api/google-calendar'
+        ? 'https://www.untitledtrading.com/api/google-calendar'
         : 'http://localhost:3000/api/google-calendar';
         
       const oauth2Client = new google.auth.OAuth2(
@@ -53,16 +53,16 @@ export async function GET(request: NextRequest) {
         }
 
         const redirectUrl = process.env.NODE_ENV === 'production'
-          ? 'https://untitledtrading.com/secret?calendar=connected'
+          ? 'https://www.untitledtrading.com/secret?calendar=connected'
           : 'http://localhost:3000/secret?calendar=connected';
 
         return NextResponse.redirect(redirectUrl);
       } catch (error) {
         console.error('Error exchanging code for tokens:', error);
         const errorUrl = process.env.NODE_ENV === 'production'
-          ? 'https://untitledtrading.com/secret?calendar=error'
+          ? 'https://www.untitledtrading.com/secret?calendar=error'
           : 'http://localhost:3000/secret?calendar=error';
-        
+
         return NextResponse.redirect(errorUrl);
       }
     }
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
     if (action === 'auth-url') {
       // Generate Google OAuth URL
       const redirectUri = process.env.NODE_ENV === 'production' 
-        ? 'https://untitledtrading.com/api/google-calendar'
+        ? 'https://www.untitledtrading.com/api/google-calendar'
         : 'http://localhost:3000/api/google-calendar';
         
       const oauth2Client = new google.auth.OAuth2(

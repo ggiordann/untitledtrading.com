@@ -16,7 +16,7 @@ export async function PUT(
     const params = await context.params;
     const taskId = params.id;
     const body = await request.json();
-    const { completed } = body;
+    const { title, description, priority, status, due_date, completed } = body;
 
     // Verify task belongs to user
     const task = await getQuery(
@@ -28,12 +28,59 @@ export async function PUT(
       return NextResponse.json({ error: 'Task not found' }, { status: 404 });
     }
 
+    // Build update query dynamically based on provided fields
+    const updates = [];
+    const values = [];
+    let paramCount = 1;
+
+    if (title !== undefined) {
+      updates.push(`title = $${paramCount}`);
+      values.push(title);
+      paramCount++;
+    }
+    if (description !== undefined) {
+      updates.push(`description = $${paramCount}`);
+      values.push(description);
+      paramCount++;
+    }
+    if (priority !== undefined) {
+      updates.push(`priority = $${paramCount}`);
+      values.push(priority);
+      paramCount++;
+    }
+    if (status !== undefined) {
+      updates.push(`status = $${paramCount}`);
+      values.push(status);
+      paramCount++;
+    }
+    if (due_date !== undefined) {
+      updates.push(`due_date = $${paramCount}`);
+      values.push(due_date);
+      paramCount++;
+    }
+    if (completed !== undefined) {
+      updates.push(`completed = $${paramCount}`);
+      values.push(completed);
+      paramCount++;
+    }
+
+    if (updates.length === 0) {
+      return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
+    }
+
+    values.push(taskId);
     await runQuery(
-      'UPDATE tasks SET completed = $1 WHERE id = $2',
-      [completed, taskId]
+      `UPDATE tasks SET ${updates.join(', ')} WHERE id = $${paramCount}`,
+      values
     );
 
-    return NextResponse.json({ success: true });
+    // Return updated task
+    const updatedTask = await getQuery(
+      'SELECT * FROM tasks WHERE id = $1 AND user_id = $2',
+      [taskId, session.user.id]
+    );
+
+    return NextResponse.json(updatedTask);
   } catch (error) {
     console.error('Error updating task:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

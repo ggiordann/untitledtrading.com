@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { TracingBeam } from '../../components/ui/tracing-beam';
 import { CardSpotlight } from '../../components/ui/card-spotlight';
 import TaskManager from './components/TaskManager';
+import KanbanBoard from './components/KanbanBoard';
 import Calendar from './components/Calendar';
 import Chat from './components/Chat';
 import MusicPlaylist from './components/MusicPlaylist';
@@ -100,7 +101,7 @@ const ProductivityHubContent = () => {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'tasks':
-        return <TaskManager />;
+        return <KanbanBoard />;
       case 'calendar':
         return <Calendar />;
       case 'chat':
@@ -118,12 +119,12 @@ const ProductivityHubContent = () => {
       case 'stats':
         return <ProductivityStats onLoadingChange={() => {}} />;
       default:
-        return <TaskManager />;
+        return <KanbanBoard />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white" style={{ transform: 'scale(0.8)', transformOrigin: 'top left', width: '125%', height: '125%' }}>
       {/* Notification Toast */}
       {notification && (
         <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${

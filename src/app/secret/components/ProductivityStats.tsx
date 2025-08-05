@@ -25,25 +25,93 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
   study_hours: 0
   });
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  // Cache keys for localStorage
+  const STATS_CACHE_KEY = 'productivity-stats-cache';
+  const CACHE_EXPIRY_KEY = 'stats-cache-expiry';
+  const CACHE_DURATION = 3 * 60 * 1000; // 3 minutes in milliseconds
 
   useEffect(() => {
-    fetchStats();
+    loadStatsWithCache();
   }, []);
 
-  const fetchStats = async () => {
+  useEffect(() => {
+    if (onLoadingChange) {
+      onLoadingChange(loading || initialLoading);
+    }
+  }, [loading, initialLoading, onLoadingChange]);
+
+  // Load stats with intelligent caching
+  const loadStatsWithCache = async () => {
     try {
+      // Check if we have valid cached data
+      const cachedStats = localStorage.getItem(STATS_CACHE_KEY);
+      const cacheExpiry = localStorage.getItem(CACHE_EXPIRY_KEY);
+      const now = Date.now();
+
+      if (cachedStats && cacheExpiry && now < parseInt(cacheExpiry)) {
+        // Use cached data for instant loading
+        const parsedData = JSON.parse(cachedStats);
+        setStats(parsedData.stats || []);
+        setTodayStats(parsedData.today || { tasks_completed: 0, study_hours: 0 });
+        setInitialLoading(false);
+        
+        // Still fetch fresh data in background
+        setTimeout(() => {
+          fetchStatsAndCache(false);
+        }, 100);
+        return;
+      }
+
+      // No valid cache, fetch fresh data
+      await fetchStatsAndCache(true);
+    } catch (error) {
+      console.error('Error loading stats with cache:', error);
+      // Fallback to regular fetch
+      await fetchStatsAndCache(true);
+    }
+  };
+
+  // Fetch stats and update cache
+  const fetchStatsAndCache = async (showLoading = true) => {
+    try {
+      if (showLoading) {
+        setLoading(true);
+      }
+      
       const response = await fetch('/api/stats');
       if (response.ok) {
         const data = await response.json();
-        setStats(data.stats || []);
-        setTodayStats(data.today || {
-          tasks_completed: 0,
-          study_hours: 0
-        });
+        const statsData = {
+          stats: data.stats || [],
+          today: data.today || { tasks_completed: 0, study_hours: 0 }
+        };
+        
+        setStats(statsData.stats);
+        setTodayStats(statsData.today);
+        
+        // Update cache
+        localStorage.setItem(STATS_CACHE_KEY, JSON.stringify(statsData));
+        localStorage.setItem(CACHE_EXPIRY_KEY, (Date.now() + CACHE_DURATION).toString());
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
+    } finally {
+      if (showLoading) {
+        setLoading(false);
+      }
+      setInitialLoading(false);
     }
+  };
+
+  // Legacy function for compatibility
+  const fetchStats = () => fetchStatsAndCache(true);
+
+  // Clear cache when stats are modified
+  const clearStatsCache = () => {
+    localStorage.removeItem(STATS_CACHE_KEY);
+    localStorage.removeItem(CACHE_EXPIRY_KEY);
   };
 
   const updateTodayStats = async (field: string, value: number) => {
@@ -64,6 +132,7 @@ const ProductivityStats: React.FC<ProductivityStatsProps> = ({ onLoadingChange }
           ...prev,
           [field]: value
         }));
+        clearStatsCache(); // Clear cache after update
       }
     } catch (error) {
       console.error('Error updating stats:', error);

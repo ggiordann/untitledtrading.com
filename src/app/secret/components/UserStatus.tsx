@@ -23,6 +23,12 @@ const UserStatus = () => {
     current_playlist: ''
   });
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  // Cache keys for localStorage
+  const STATUS_CACHE_KEY = 'user-status-cache';
+  const CACHE_EXPIRY_KEY = 'status-cache-expiry';
+  const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes in milliseconds
 
   const statusOptions = [
     { value: 'Available', emoji: '✅', color: 'text-green-400' },
@@ -33,12 +39,100 @@ const UserStatus = () => {
   ];
 
   useEffect(() => {
-    fetchUserStatus();
+    loadStatusWithCache();
     
     // Refresh every 30 seconds
-    const interval = setInterval(fetchUserStatus, 30000);
+    const interval = setInterval(() => fetchStatusAndCache(false), 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Load status with intelligent caching
+  const loadStatusWithCache = async () => {
+    try {
+      // Check if we have valid cached data
+      const cachedStatus = localStorage.getItem(STATUS_CACHE_KEY);
+      const cacheExpiry = localStorage.getItem(CACHE_EXPIRY_KEY);
+      const now = Date.now();
+
+      if (cachedStatus && cacheExpiry && now < parseInt(cacheExpiry)) {
+        // Use cached data for instant loading
+        const parsedData = JSON.parse(cachedStatus);
+        setUsers(parsedData.users || []);
+        if (parsedData.currentUser) {
+          setCurrentUser(parsedData.currentUser);
+          setEditForm({
+            status: parsedData.currentUser.status || '',
+            notes: parsedData.currentUser.notes || '',
+            current_playlist: parsedData.currentUser.current_playlist || ''
+          });
+        }
+        setInitialLoading(false);
+        
+        // Still fetch fresh data in background
+        setTimeout(() => {
+          fetchStatusAndCache(false);
+        }, 100);
+        return;
+      }
+
+      // No valid cache, fetch fresh data
+      await fetchStatusAndCache(true);
+    } catch (error) {
+      console.error('Error loading status with cache:', error);
+      // Fallback to regular fetch
+      await fetchStatusAndCache(true);
+    }
+  };
+
+  // Fetch status and update cache
+  const fetchStatusAndCache = async (showLoading = true) => {
+    try {
+      if (showLoading) {
+        setLoading(true);
+      }
+      
+      const response = await fetch('/api/user-status');
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+        
+        // Find current user
+        const current = data.find((user: UserStatus) => 
+          user.username === session?.user?.username
+        );
+        
+        if (current) {
+          setCurrentUser(current);
+          setEditForm({
+            status: current.status || '',
+            notes: current.notes || '',
+            current_playlist: current.current_playlist || ''
+          });
+        }
+        
+        // Update cache
+        const cacheData = {
+          users: data,
+          currentUser: current || null
+        };
+        localStorage.setItem(STATUS_CACHE_KEY, JSON.stringify(cacheData));
+        localStorage.setItem(CACHE_EXPIRY_KEY, (Date.now() + CACHE_DURATION).toString());
+      }
+    } catch (error) {
+      console.error('Error fetching status:', error);
+    } finally {
+      if (showLoading) {
+        setLoading(false);
+      }
+      setInitialLoading(false);
+    }
+  };
+
+  // Clear cache when status is modified
+  const clearStatusCache = () => {
+    localStorage.removeItem(STATUS_CACHE_KEY);
+    localStorage.removeItem(CACHE_EXPIRY_KEY);
+  };
 
   const fetchUserStatus = async () => {
     try {
@@ -78,7 +172,8 @@ const UserStatus = () => {
         const updatedUser = await response.json();
         setCurrentUser(updatedUser);
         setEditMode(false);
-        fetchUserStatus(); // Refresh all users
+        clearStatusCache(); // Clear cache after update
+        fetchStatusAndCache(false); // Refresh all users
       }
     } catch (error) {
       console.error('Error updating status:', error);

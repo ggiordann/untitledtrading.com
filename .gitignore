@@ -1,4 +1,5 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about
+# ignoring files.
 
 # dependencies
 /node_modules
@@ -93,3 +94,6 @@ logs
 **/*secret*
 **/*key*
 **/credentials/**
+lib/initDatabase_new.js
+lib/initDatabase_fixed.js
+lib/initDatabase_backup.js

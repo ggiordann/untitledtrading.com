@@ -48,6 +48,7 @@ const StudyTimer = () => {
   const [activeSessions, setActiveSessions] = useState<StudySession[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<CurrentTrack | null>(null);
+  const [userTracks, setUserTracks] = useState<{ [username: string]: CurrentTrack }>({});
   
   // New timer functionality
   const [timerType, setTimerType] = useState<TimerType>('study');
@@ -64,16 +65,43 @@ const StudyTimer = () => {
       if (response.ok) {
         const track = await response.json();
         setCurrentTrack(track);
-      } else {
-        setCurrentTrack(null);
       }
     } catch (error) {
       console.error('Error fetching current track:', error);
-      setCurrentTrack(null);
     }
   };
 
-  // Clear interval on component unmount
+  const fetchUserTracks = async (sessions: StudySession[]) => {
+    try {
+      const trackPromises = sessions.map(async (session) => {
+        if (!session.username) return null;
+        
+        try {
+          const response = await fetch(`/api/lastfm-users/current-track?username=${encodeURIComponent(session.username)}`);
+          if (response.ok) {
+            const track = await response.json();
+            return { username: session.username, track };
+          }
+        } catch (error) {
+          console.error(`Error fetching track for ${session.username}:`, error);
+        }
+        return null;
+      });
+
+      const results = await Promise.all(trackPromises);
+      const newUserTracks: { [username: string]: CurrentTrack } = {};
+      
+      results.forEach((result) => {
+        if (result) {
+          newUserTracks[result.username] = result.track;
+        }
+      });
+      
+      setUserTracks(newUserTracks);
+    } catch (error) {
+      console.error('Error fetching user tracks:', error);
+    }
+  };  // Clear interval on component unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -164,6 +192,11 @@ const StudyTimer = () => {
       if (response.ok) {
         const data = await response.json();
         setActiveSessions(data);
+        
+        // Fetch tracks for all active users
+        if (data.length > 0) {
+          fetchUserTracks(data);
+        }
       }
     } catch (error) {
       console.error('Error fetching active sessions:', error);
@@ -433,13 +466,13 @@ const StudyTimer = () => {
                   </div>
                   
                   {/* Music info for active sessions */}
-                  {currentTrack && (
+                  {session.username && userTracks[session.username] && (
                     <div className="flex items-center space-x-3 mt-2 p-2 bg-black/20 rounded">
                       <div className="relative">
-                        {currentTrack.image && (
-                          <img src={currentTrack.image} alt="Album Art" className="w-8 h-8 rounded" />
+                        {userTracks[session.username].image && (
+                          <img src={userTracks[session.username].image} alt="Album Art" className="w-8 h-8 rounded" />
                         )}
-                        {currentTrack.nowPlaying && (
+                        {userTracks[session.username].nowPlaying && (
                           <div 
                             className="absolute -top-1 -right-1"
                             style={{ fontSize: '8px' }}
@@ -450,10 +483,10 @@ const StudyTimer = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-aeonik-medium text-white truncate">
-                          {currentTrack.nowPlaying ? 'Now Playing' : 'Recently Played'}
+                          {userTracks[session.username].nowPlaying ? 'Now Playing' : 'Recently Played'}
                         </div>
                         <div className="text-xs text-gray-300 truncate">
-                          {currentTrack.name} by {currentTrack.artist}
+                          {userTracks[session.username].name} by {userTracks[session.username].artist}
                         </div>
                       </div>
                     </div>

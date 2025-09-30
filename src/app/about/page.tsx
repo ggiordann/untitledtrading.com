@@ -14,36 +14,36 @@ const team = [
   {
     name: "Giordan Masen",
     role: "Co-Founder, Business Lead & Quantitative Developer",
-    desc: "Graduating at 16. Perfect SAT score. State physics champion (99%). Founded Acumen ($2.8M valuation). State debating champion.",
+    desc: "Founded company at 15, grew to $2.8 million by 16. State debating champion, 2nd internationally for breakdancing.",
     year: "Co-Founder",
-    quote: "The market doesn't care about your degree. It only respects results. We're here to take what's ours.",
+    quote: "Success isn't about following the path, but instead creating one that others will follow.",
     linkedin: "https://www.linkedin.com/in/gmasen/",
     instagram: "https://www.instagram.com/ggiordann/"
   },
   {
     name: "Ghazi Kazmi",
     role: "Co-Founder & Quantitative Developer",
-    desc: "Perfect 100 in mathematics. Top 1% merit for AIF research project. Built multi-marketplace automation tool. Competitive math solver since 13.",
+    desc: "Scaled company from 0 to $2.8 million through automation. Top 1% globally in competitive mathematics.",
     year: "Co-Founder",
-    quote: "Traditional finance is built on outdated systems. We're not here to improve them, we're here to replace them.",
+    quote: "The greatest innovations come not from improving what exists, but from reimagining what's possible.",
     linkedin: "https://www.linkedin.com/in/ghazi-kazmi-3820ab263/",
     instagram: "https://www.instagram.com/gxxviik/"
   },
   {
     name: "Kalan Masen",
     role: "Lead Quantitative Researcher",
-    desc: "Tied for #1 physics score in state (99%). State debating champion. Accelerated in Physics & Chemistry. ALL or NOTHING approach.",
+    desc: "State physics champion, debating champion.",
     year: "Lead Quant",
-    quote: "Money is the lifeblood of civilisation. Master its flow, and you master everything.",
+    quote: "Understanding patterns in complexity is where true opportunity reveals itself.",
     linkedin: "https://www.linkedin.com/in/kalan-masen-077698373/",
     instagram: "https://www.instagram.com/kalanmasen09/"
   },
   {
     name: "Asad Khan",
     role: "Design Lead",
-    desc: "Graduating at 16. 2nd of 1500+ in Ignite scholarship. State debater of the year. First in state for citizen science design. A+ graphic design.",
+    desc: "2nd in state. Debater of year. Award-winning designer.",
     year: "Design Lead",
-    quote: "Design isn't decoration, it's domination. Every pixel serves our purpose: total market conquest.",
+    quote: "Great design makes the complex feel intuitive.",
     linkedin: "https://www.linkedin.com/in/asad-khan-37aa562a1/",
     instagram: "https://www.instagram.com/asad.esskay/"
   }

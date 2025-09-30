@@ -14,7 +14,7 @@ const team = [
   {
     name: "Giordan Masen",
     role: "Co-Founder, Business Lead & Quantitative Developer",
-    desc: "Founded company at 15, grew to $2.8 million by 16. State debating champion, 2nd internationally for breakdancing.",
+    desc: "Founded company at 15, grew to $2.8 million by 16. State debating champion, second internationally for breakdancing. Graduating at 16.",
     year: "Co-Founder",
     quote: "Success isn't about following the path, but instead creating one that others will follow.",
     linkedin: "https://www.linkedin.com/in/gmasen/",
@@ -32,7 +32,7 @@ const team = [
   {
     name: "Kalan Masen",
     role: "Lead Quantitative Researcher",
-    desc: "State physics champion, debating champion.",
+    desc: "State physics champion, state debating champion.",
     year: "Lead Quant",
     quote: "Understanding patterns in complexity is where true opportunity reveals itself.",
     linkedin: "https://www.linkedin.com/in/kalan-masen-077698373/",
@@ -41,7 +41,7 @@ const team = [
   {
     name: "Asad Khan",
     role: "Design Lead",
-    desc: "2nd in state. Debater of year. Award-winning designer.",
+    desc: "Top 0.001% in state scholarship test. State debater of the year. Award-winning designer.",
     year: "Design Lead",
     quote: "Great design makes the complex feel intuitive.",
     linkedin: "https://www.linkedin.com/in/asad-khan-37aa562a1/",
@@ -77,7 +77,7 @@ const achievements = [
   },
   {
     name: "Academic Excellence",
-    desc: "Team maintains perfect 15.00 GPA with 10+ academic awards each.",
+    desc: "Team maintains perfect GPA with 10+ academic awards each.",
     year: "Ongoing",
   },
 ];

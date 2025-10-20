@@ -1,5 +1,5 @@
 # UNTITLED TRADING
-AI-native quantitative trading firm leveraging autonomous agents for high-frequency trading.
+Website
 
 ### Tech Stack
 

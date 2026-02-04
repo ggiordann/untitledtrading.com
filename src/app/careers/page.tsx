@@ -11,29 +11,16 @@ import { CardSpotlight } from "../../components/ui/card-spotlight";
 
 const jobs = [
   {
-    id: "founding-engineer",
-    title: "Founding Engineer",
-    type: "Full-time",
+    id: "general-application",
+    title: "General Application",
+    type: "Various Positions Available",
     location: "Adelaide, AU / Remote",
-    shortDescription: "Build the future of autonomous trading as a founding engineer.",
+    shortDescription: "Submit your application and let us determine the best fit for your skills and experience.",
     keyPoints: [
-      "Architect core trading infrastructure",
-      "Work directly with founders",
-      "Significant equity stake",
-      "Shape technical direction"
-    ]
-  },
-  {
-    id: "quant-researcher-intern",
-    title: "Quantitative Researcher Intern",
-    type: "Internship (3-6 months)",
-    location: "Adelaide, AU / Remote",
-    shortDescription: "Research and develop cutting-edge trading strategies with our AI models.",
-    keyPoints: [
-      "Develop trading strategies",
-      "Work with AI/ML models",
-      "Flexible university hours",
-      "Path to full-time role"
+      "Technical and leadership roles available",
+      "We'll match you to the right position",
+      "Work with cutting-edge AI technology",
+      "Equity and growth opportunities"
     ]
   }
 ];
@@ -70,7 +57,7 @@ const Careers = () => {
             <div className="flex flex-col w-full py-20">
               <p className="font-aeonik-thin tracking-widest text-[18px] border-b border-gray-400 pb-3 mb-10">OPEN POSITIONS</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              <div className="grid grid-cols-1 gap-6 w-full max-w-2xl mx-auto">
                 {jobs.map((job, index) => (
                   <CardSpotlight 
                     key={job.id}

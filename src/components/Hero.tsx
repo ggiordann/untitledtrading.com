@@ -103,31 +103,31 @@ const Hero = () => {
                 <CardSpotlight 
                   className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">sharpe ratio</p>
+                    <p className="font-aeonik-medium text-[18px]">mean latency</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">2.74</p>
+                  <p className="font-aeonik-bold text-[36px]">18ms</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    risk-adjusted returns outperforming traditional quant funds
+                    signal generation to order placement (p50)
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
                   className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">execution speed</p>
+                    <p className="font-aeonik-medium text-[18px]">max drawdown</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">&lt; 10ms</p>
+                  <p className="font-aeonik-bold text-[36px]">11.2%</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    ultra-low latency from signal to execution
+                    peak-to-trough decline in backtesting (2019-2026)
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
                   className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">annualised return</p>
+                    <p className="font-aeonik-medium text-[18px]">data throughput</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">214%</p>
+                  <p className="font-aeonik-bold text-[36px]">420K</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    backtested performance with full validation
+                    tick events processed per second across feeds
                   </p>
                 </CardSpotlight>
               </div>

@@ -1,17 +1,18 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About - Giordan Masen, Ghazi Kazmi, Kalan Masen, Asad Khan | Untitled Trading',
-  description: 'Meet the founders of Untitled Trading: Giordan Masen, Ghazi Kazmi, Kalan Masen, and Asad Khan. Four 16-year-old prodigies revolutionizing quantitative trading with AI.',
+  title: 'About - Prediction Market Infrastructure Team | Untitled Trading',
+  description: 'Meet the Untitled Trading team building AI-native infrastructure for prediction markets.',
   keywords: [
     'Giordan Masen', 
+    'Aditya Payanadan',
+    'Jin Xing',
     'Ghazi Kazmi', 
     'Kalan Masen', 
     'Asad Khan',
-    'Untitled Trading founders',
+    'Untitled Trading team',
+    'prediction market infrastructure',
     'AI trading team',
-    'quantitative trading founders',
-    'teenage entrepreneurs',
     'Adelaide fintech founders'
   ],
 };

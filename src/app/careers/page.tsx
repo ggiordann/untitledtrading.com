@@ -17,9 +17,9 @@ const jobs = [
     location: "Adelaide, AU / Remote",
     shortDescription: "Submit your application and let us determine the best fit for your skills and experience.",
     keyPoints: [
-      "Technical and leadership roles available",
+      "Engineering, research, trading, and design roles available",
       "We'll match you to the right position",
-      "Work with cutting-edge AI technology",
+      "Work on prediction market infrastructure",
       "Equity and growth opportunities"
     ]
   }
@@ -47,9 +47,9 @@ const Careers = () => {
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">
                 <p className="w-full font-aeonik-bold tracking-tight text-center leading-[100%] text-[21px] mb-3">CAREERS</p>
-                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">Join the revolution in quantitative trading</h1>
+                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">Join the prediction market infrastructure team</h1>
                 <div className="w-full md:w-2/3 font-aeonik-thin tracking-[0.015em] space-y-10 items-center align-center justify-center text-[21px] md:text-[21px]">
-                  <p className="leading-[150%] text-center">We're looking for exceptional individuals who share our vision of transforming finance through AI. Join our founding team and help build the future of autonomous trading.</p>
+                  <p className="leading-[150%] text-center">We're looking for exceptional people who want to build real-time systems for prediction markets.</p>
                 </div>
               </div>
             </div>
@@ -101,23 +101,23 @@ const Careers = () => {
             </div>
 
             <div className="flex flex-col w-full pb-20">
-              <p className="font-aeonik-thin tracking-widest text-[18px] border-b border-gray-400 pb-3 mb-10">WHY JOIN US?</p>
+              <p className="font-aeonik-thin tracking-widest text-[18px] border-b border-gray-400 pb-3 mb-10">WHY JOIN US</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
                 <div className="text-center">
-                  <p className="font-voyager-thin text-[48px] mb-2">16</p>
+                  <p className="font-voyager-thin text-[48px] mb-2">17</p>
                   <p className="font-aeonik-thin text-[14px] text-gray-400">Average founder age</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-voyager-thin text-[48px] mb-2">2.74</p>
-                  <p className="font-aeonik-thin text-[14px] text-gray-400">Sharpe ratio achieved</p>
+                  <p className="font-voyager-thin text-[48px] mb-2">10K</p>
+                  <p className="font-aeonik-thin text-[14px] text-gray-400">Market index capacity</p>
                 </div>
                 <div className="text-center">
                   <p className="font-voyager-thin text-[48px] mb-2">24/7</p>
-                  <p className="font-aeonik-thin text-[14px] text-gray-400">Autonomous trading</p>
+                  <p className="font-aeonik-thin text-[14px] text-gray-400">Market monitoring</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-voyager-thin text-[48px] mb-2">∞</p>
-                  <p className="font-aeonik-thin text-[14px] text-gray-400">Growth potential</p>
+                  <p className="font-voyager-thin text-[48px] mb-2">4</p>
+                  <p className="font-aeonik-thin text-[14px] text-gray-400">Core disciplines</p>
                 </div>
               </div>
             </div>

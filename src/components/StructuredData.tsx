@@ -8,8 +8,8 @@ const StructuredData = () => {
     "alternateName": "Untitled Trading Co",
     "url": "https://untitledtrading.com",
     "logo": "https://untitledtrading.com/design/Untitled.png",
-    "description": "The first AI-native quantitative trading firm leveraging autonomous agents for high-frequency trading.",
-    "foundingDate": "2024",
+    "description": "AI-native infrastructure for prediction markets.",
+    "foundingDate": "2025",
     "founders": [
       {
         "@type": "Person",
@@ -27,6 +27,44 @@ const StructuredData = () => {
         "sameAs": [
           "https://www.linkedin.com/in/ghazi-kazmi-3820ab263/",
           "https://www.instagram.com/gxxviik/"
+        ]
+      }
+    ],
+    "member": [
+      {
+        "@type": "Person",
+        "name": "Aditya Payanadan",
+        "jobTitle": "Developer & Quantitative Researcher",
+        "sameAs": [
+          "https://www.linkedin.com/in/apayanadan/",
+          "https://www.instagram.com/ad1tya_payanadan/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Jin Xing",
+        "jobTitle": "Trader & Quantitative Researcher",
+        "sameAs": [
+          "https://www.linkedin.com/in/jin-xing-8bb72a406/",
+          "https://www.instagram.com/sterhamms/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Kalan Masen",
+        "jobTitle": "Quantitative Researcher",
+        "sameAs": [
+          "https://www.linkedin.com/in/kalan-masen-077698373/",
+          "https://www.instagram.com/kalanmasen09/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Asad Khan",
+        "jobTitle": "Design Lead",
+        "sameAs": [
+          "https://www.linkedin.com/in/asad-khan-37aa562a1/",
+          "https://www.instagram.com/asad.webp/"
         ]
       }
     ],

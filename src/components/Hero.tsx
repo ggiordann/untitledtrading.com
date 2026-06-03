@@ -89,9 +89,9 @@ const Hero = () => {
                 <h1 className="tracking-tight font-voyager-thin text-[48px] md:text-[42px] lg:text-[42px]">UNTITLED TRADING</h1>
               </div>
               <div className="w-full font-aeonik-regular space-y-8 leading-[1.5] text-[21px] md:text-[18px] lg:text-[18px]">
-                <p>AI-native quantitative trading firm.</p>
-                <p>We're building next-generation trading infrastructure powered by artificial intelligence.</p>
-                <p>Operating at the intersection of finance and cutting-edge AI technology.</p>
+                <p>AI-native prediction market infrastructure.</p>
+                <p>We're building real-time systems for prediction markets.</p>
+                <p>Operating at the intersection of markets, technology, and AI-driven research.</p>
                 <p>contact: <Link href="mailto:contact@untitledtrading.com" className="border-b italic hover:text-blue-500 transition-all duration-400 hover:border-blue-500">contact@untitledtrading.com</Link></p>
               </div>
             </div>
@@ -107,17 +107,17 @@ const Hero = () => {
                   </div>
                   <p className="font-aeonik-bold text-[36px]">18ms</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    signal generation to order placement (p50)
+                    internal system response time
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
                   className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">max drawdown</p>
+                    <p className="font-aeonik-medium text-[18px]">market index</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">11.2%</p>
+                  <p className="font-aeonik-bold text-[36px]">10K+</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    peak-to-trough decline in backtesting (2019-2026)
+                    market and event records indexed
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
@@ -125,9 +125,9 @@ const Hero = () => {
                   <div className="flex flex-row w-full justify-between items-center">
                     <p className="font-aeonik-medium text-[18px]">data throughput</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">420K</p>
+                  <p className="font-aeonik-bold text-[36px]">420K+</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    tick events processed per second across feeds
+                    market events processed across internal systems
                   </p>
                 </CardSpotlight>
               </div>

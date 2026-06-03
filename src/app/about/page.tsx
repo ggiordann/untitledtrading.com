@@ -19,6 +19,20 @@ const team = [
     instagram: "https://www.instagram.com/ggiordann/"
   },
   {
+    name: "Aditya Payanadan",
+    role: "Developer & Quantitative Researcher",
+    year: "Research",
+    linkedin: "https://www.linkedin.com/in/apayanadan/",
+    instagram: "https://www.instagram.com/ad1tya_payanadan/"
+  },
+  {
+    name: "Jin Xing",
+    role: "Trader & Quantitative Researcher",
+    year: "Research",
+    linkedin: "https://www.linkedin.com/in/jin-xing-8bb72a406/",
+    instagram: "https://www.instagram.com/sterhamms/"
+  },
+  {
     name: "Ghazi Kazmi",
     role: "Co-Founder & Quantitative Developer",
     year: "Co-Founder",
@@ -27,8 +41,8 @@ const team = [
   },
   {
     name: "Kalan Masen",
-    role: "Lead Quantitative Researcher",
-    year: "Lead Quant",
+    role: "Quantitative Researcher",
+    year: "Research",
     linkedin: "https://www.linkedin.com/in/kalan-masen-077698373/",
     instagram: "https://www.instagram.com/kalanmasen09/"
   },
@@ -43,18 +57,18 @@ const team = [
 
 const achievements = [
   {
-    name: "AI Trading Infrastructure",
-    desc: "Developed proprietary trading systems powered by artificial intelligence.",
-    year: "2024",
-  },
-  {
-    name: "Seed Funding",
-    desc: "Raised initial funding to scale operations.",
+    name: "Company Founded",
+    desc: "Started building internal systems for market intelligence and research.",
     year: "2025",
   },
   {
-    name: "Advanced Quantitative Models",
-    desc: "Developing next-generation quantitative trading models.",
+    name: "Live Market Systems",
+    desc: "Built real-time data and monitoring infrastructure.",
+    year: "2025",
+  },
+  {
+    name: "Prediction Market Infrastructure",
+    desc: "Expanding quantitative models, tooling, and workflows across prediction markets.",
     year: "2026",
   },
 ];
@@ -72,7 +86,7 @@ const About = () => {
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">
                 <p className="w-full font-aeonik-bold tracking-tight text-center leading-[100%] text-[21px] mb-3">ABOUT </p>
-                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">AI-native quantitative trading firm</h1>
+                <h1 className="font-voyager-thin text-[44px] md:text-[54px] leading-[125%] text-center tracking-tight mb-3">AI-native prediction market infrastructure</h1>
                 <Image
                   priority
                   src="/design/Untitled.png"
@@ -82,21 +96,21 @@ const About = () => {
                   className="py-8"
                 />
                 <div className="w-full md:w-2/3 font-aeonik-thin tracking-[0.015em] space-y-10 items-center align-center justify-center text-[21px] md:text-[21px]">
-                  <p className="leading-[150%]">We're four founders building the future of quantitative trading through artificial intelligence.
+                  <p className="leading-[150%]">We're building real-time infrastructure for prediction markets.
                   </p>
-                  <p className="leading-[150%]">Our journey began with a simple question: what if trading could be fundamentally reimagined?
+                  <p className="leading-[150%]">Our systems are designed to support market intelligence, quantitative research, and disciplined execution at scale.
                   </p>
-                  <p className="leading-[150%]">We've developed proprietary technology that represents a paradigm shift in how markets can be approached.
+                  <p className="leading-[150%]">The work combines engineering, research, trading judgment, and product design.
                   </p>
-                  <p className="leading-[150%]">Our results demonstrate the potential of our approach. We're not just building another trading firm; we're creating something fundamentally different.
+                  <p className="leading-[150%]">The goal is to build the infrastructure layer for prediction market research and execution.
                   </p>
-                  <p className="leading-[150%]">Currently securing funding to scale our operations and bring our vision to market.
+                  <p className="leading-[150%]">Currently expanding the team across engineering, research, trading, and design.
                   </p>
                 </div>
               </div>
             </div>
           <div className="flex flex-col w-full py-20">
-            <p className="font-aeonik-thin tracking-widest text-[18px] border-b border-gray-400 pb-3">FOUNDING TEAM</p>
+            <p className="font-aeonik-thin tracking-widest text-[18px] border-b border-gray-400 pb-3">TEAM</p>
             {team.map((member, index) => (
               <div key={index} className="flex flex-col w-full border-b border-gray-800 py-10">
                 <div className="flex flex-col md:flex-row justify-between md:items-start w-full">

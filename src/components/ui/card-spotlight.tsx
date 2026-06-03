@@ -39,7 +39,7 @@ export const CardSpotlight = ({
   const content = (
     <div
       className={cn(
-        "group/spotlight rounded-2xl relative border border-neutral-800 bg-black dark:border-neutral-800",
+        "group/spotlight relative overflow-hidden rounded-xl border border-neutral-800 bg-black dark:border-neutral-800",
         className
       )}
       onMouseMove={handleMouseMove}
@@ -48,7 +48,7 @@ export const CardSpotlight = ({
       {...props}
     >
       <motion.div
-        className="pointer-events-none absolute z-0 -inset-px rounded-2xl opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
+        className="pointer-events-none absolute z-0 -inset-px rounded-[inherit] opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
         style={{
           backgroundColor: color,
           maskImage: useMotionTemplate`
@@ -68,6 +68,7 @@ export const CardSpotlight = ({
               [59, 130, 246],
               [139, 92, 246],
             ]}
+            opacities={[0.38, 0.38, 0.42, 0.55, 0.55, 0.65, 0.82, 0.86, 0.9, 1]}
             dotSize={3}
           />
         )}

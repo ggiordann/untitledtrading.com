@@ -1,11 +1,11 @@
 export const metadata = {
     title: {
-      default: "Untitled Trading - AI-Native Quantitative Trading Firm | Autonomous Trading Agents",
+      default: "Untitled Trading - AI-Native Prediction Market Infrastructure",
       template: "%s | Untitled Trading",
     },
     description:
-    "Untitled Trading is an AI-native quantitative trading firm operating at the intersection of finance and cutting-edge technology.",
-    keywords: ["quantitative trading", "AI trading", "high-frequency trading", "autonomous agents", "quant finance", "hedge fund", "algorithmic trading", "machine learning trading", "Adelaide fintech", "Australian quant fund", "LLM trading", "automated trading systems"],
+    "Untitled Trading builds AI-native infrastructure for prediction markets.",
+    keywords: ["prediction markets", "AI trading", "market infrastructure", "quant finance", "algorithmic trading", "machine learning trading", "Adelaide fintech", "automated trading systems"],
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',
@@ -26,11 +26,11 @@ export const metadata = {
       creator: "@UntitledTrading",
       images: "https://untitledtrading.com/head/embed.png",
       title: {
-        default: "Untitled Trading - AI-Native Quantitative Trading Firm",
+        default: "Untitled Trading - AI-Native Prediction Market Infrastructure",
         template: "%s | Untitled Trading",
       },
       description:
-      "AI-native quantitative trading firm. Next-generation trading infrastructure powered by artificial intelligence.",
+      "AI-native infrastructure for prediction markets.",
     },
     openGraph: {
       url: "https://untitledtrading.com/",
@@ -42,7 +42,7 @@ export const metadata = {
         template: "%s | untitledtrading.com",
       },
       description:
-      "AI-native quantitative trading firm. Operating at the intersection of finance and cutting-edge technology.",
+      "AI-native prediction market infrastructure.",
       images: [
         {
           url: "https://untitledtrading.com/head/embed.png",

@@ -38,11 +38,11 @@ const Careers = () => {
     <>
       <Navbar />
       <div className="flex w-full flex-col pt-32 items-center">
-        <div className="flex flex-col w-full px-8 md:px-22 lg:px-20 items-center justify-center text-6xl font-bold gap-y-4">
+        <div className="flex flex-col w-full px-8 md:px-[5.5rem] lg:px-20 items-center justify-center text-6xl font-bold gap-y-4">
           <div className="relative w-full max-w-5xl">
           <TracingBeam className="px-0 md:px-2">
             <div className="flex flex-col w-full align-center justify-center space-y-4 items-start">
-              <Link href="/" className="w-full font-aeonik-thin tracking-regular space-y-3 text-sm mb-4">
+              <Link href="/" className="w-full font-aeonik-thin tracking-normal space-y-3 text-sm mb-4">
                 <p>← BACK TO HOME </p>
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">

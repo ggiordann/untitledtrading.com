@@ -16,7 +16,7 @@ const Play = () => {
         <div className="flex flex-col w-full px-8 sm:px-8 md:px-16 lg:px-20 items-start justify-center gap-y-4 ">
           <TracingBeam className="px-0 md:px-2">
             <div className="flex flex-col w-full">
-              <Link href="/" className="w-full font-aeonik-thin tracking-regular text-sm mb-4">
+              <Link href="/" className="w-full font-aeonik-thin tracking-normal text-sm mb-4">
                   <p>← BACK TO HOME </p>
               </Link>
               <div

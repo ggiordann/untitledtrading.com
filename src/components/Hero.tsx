@@ -92,7 +92,7 @@ const Hero = () => {
                 <p>AI-native prediction market infrastructure.</p>
                 <p>We're building real-time systems for prediction markets.</p>
                 <p>Operating at the intersection of markets, technology, and AI-driven research.</p>
-                <p>contact: <Link href="mailto:contact@untitledtrading.com" className="border-b italic hover:text-blue-500 transition-all duration-400 hover:border-blue-500">contact@untitledtrading.com</Link></p>
+                <p>contact: <Link href="mailto:contact@untitledtrading.com" className="border-b italic hover:text-blue-500 transition-all duration-300 hover:border-blue-500">contact@untitledtrading.com</Link></p>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Hero = () => {
             <div className="flex flex-col pb-20 md:pb-0 pt-6 md:pt-0 lg:pt-0 sm:flex-row w-full space-y-3 md:space-y-0 md:space-x-4">
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 w-full">
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
                     <p className="font-aeonik-medium text-[18px]">mean latency</p>
                   </div>
@@ -111,7 +111,7 @@ const Hero = () => {
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
                     <p className="font-aeonik-medium text-[18px]">market index</p>
                   </div>
@@ -121,7 +121,7 @@ const Hero = () => {
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-400 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-26 md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
                   <div className="flex flex-row w-full justify-between items-center">
                     <p className="font-aeonik-medium text-[18px]">data throughput</p>
                   </div>
@@ -136,6 +136,12 @@ const Hero = () => {
           <div className="flex flex-col space-y-4 px-5">
             <h1 className="tracking-tight font-voyager-thin text-[21px]">learn more</h1>
             <div className="flex flex-col pb-20 md:pb-0 pt-6 md:pt-0 lg:pt-0 sm:flex-row w-full space-y-3 md:space-y-0 md:space-x-4">
+              <Button
+                text="MANIFESTO"
+                link="/manifesto"
+                className="w-full text-center md:text-left sm:w-auto"
+                event={`'manifestoClicked', {property: 'value'}`}
+              ></Button>
               <Button 
                 text="ABOUT"
                 link="/about"

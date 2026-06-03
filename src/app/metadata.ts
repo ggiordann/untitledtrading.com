@@ -1,6 +1,6 @@
 export const metadata = {
     title: {
-      default: "Untitled Trading - AI-Native Prediction Market Infrastructure",
+      default: "Untitled Trading",
       template: "%s | Untitled Trading",
     },
     description:
@@ -26,7 +26,7 @@ export const metadata = {
       creator: "@UntitledTrading",
       images: "https://untitledtrading.com/head/embed.png",
       title: {
-        default: "Untitled Trading - AI-Native Prediction Market Infrastructure",
+        default: "Untitled Trading",
         template: "%s | Untitled Trading",
       },
       description:

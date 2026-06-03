@@ -13,35 +13,35 @@ export { metadata } from './metadata';
 const team = [
   {
     name: "Giordan Masen",
-    role: "Co-Founder, Business Lead & Quantitative Developer",
-    year: "Co-Founder",
+    role: "Founder & Researcher",
+    year: "Founder",
     linkedin: "https://www.linkedin.com/in/gmasen/",
     instagram: "https://www.instagram.com/ggiordann/"
   },
   {
     name: "Aditya Payanadan",
-    role: "Developer & Quantitative Researcher",
+    role: "Trader & Developer",
     year: "Research",
     linkedin: "https://www.linkedin.com/in/apayanadan/",
     instagram: "https://www.instagram.com/ad1tya_payanadan/"
   },
   {
     name: "Jin Xing",
-    role: "Trader & Quantitative Researcher",
+    role: "Trader & Researcher",
     year: "Research",
     linkedin: "https://www.linkedin.com/in/jin-xing-8bb72a406/",
     instagram: "https://www.instagram.com/sterhamms/"
   },
   {
     name: "Ghazi Kazmi",
-    role: "Co-Founder & Quantitative Developer",
-    year: "Co-Founder",
+    role: "Founder & Developer",
+    year: "Founder",
     linkedin: "https://www.linkedin.com/in/ghazi-kazmi-3820ab263/",
     instagram: "https://www.instagram.com/gxxviik/"
   },
   {
     name: "Kalan Masen",
-    role: "Quantitative Researcher",
+    role: "Researcher",
     year: "Research",
     linkedin: "https://www.linkedin.com/in/kalan-masen-077698373/",
     instagram: "https://www.instagram.com/kalanmasen09/"
@@ -78,10 +78,10 @@ const About = () => {
     <>
       <Navbar />
       <div className="flex w-full flex-col pt-32 items-start">
-        <div className="flex flex-col w-full px-8 md:px-22 lg:px-20 items-start justify-center text-6xl font-bold gap-y-4 ">
+        <div className="flex flex-col w-full px-8 md:px-[5.5rem] lg:px-20 items-start justify-center text-6xl font-bold gap-y-4 ">
           <TracingBeam className="px-0 md:px-2">
             <div className="flex flex-col w-full align-center justify-center space-y-4 items-start">
-              <Link href="/" className="w-full font-aeonik-thin tracking-regular space-y-3 text-sm mb-4">
+              <Link href="/" className="w-full font-aeonik-thin tracking-normal space-y-3 text-sm mb-4">
                 <p>← BACK TO HOME </p>
               </Link>
               <div className="flex flex-col w-full align-center justify-center space-y-4 items-center">
@@ -100,11 +100,7 @@ const About = () => {
                   </p>
                   <p className="leading-[150%]">Our systems are designed to support market intelligence, quantitative research, and disciplined execution at scale.
                   </p>
-                  <p className="leading-[150%]">The work combines engineering, research, trading judgment, and product design.
-                  </p>
-                  <p className="leading-[150%]">The goal is to build the infrastructure layer for prediction market research and execution.
-                  </p>
-                  <p className="leading-[150%]">Currently expanding the team across engineering, research, trading, and design.
+                  <p className="leading-[150%]">Currently expanding the team across engineering, research and trading.
                   </p>
                 </div>
               </div>

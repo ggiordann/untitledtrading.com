@@ -203,7 +203,47 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 0;
+}
+
+.manifesto-opening {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0 4.5rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.manifesto-opening-spacer {
+  display: none;
+}
+
+.manifesto-opening-body {
+  width: 100%;
+  max-width: 860px;
+  color: rgb(255 255 255 / 0.8);
+  font-family: 'Aeonik-Thin', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: clamp(1.1875rem, 4.5vw, 1.375rem);
+  line-height: 1.78;
+  letter-spacing: 0.01em;
+}
+
+.manifesto-opening-body p:first-child::first-letter {
+  float: left;
+  margin: 0.11em 0.14em 0 0;
+  color: #fff;
+  font-family: 'Aeonik-Bold', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: calc(2em * 1.78);
+  line-height: 0.78;
+  letter-spacing: 0;
+}
+
+.manifesto-opening-body p {
+  margin: 0;
+}
+
+.manifesto-opening-body p + p {
+  margin-top: 2rem;
 }
 
 .manifesto-section {
@@ -318,4 +358,5 @@
   .manifesto-final-spacer {
     display: block;
   }
+
 }

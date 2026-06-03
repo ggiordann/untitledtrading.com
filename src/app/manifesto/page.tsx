@@ -213,7 +213,47 @@ a {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 0;
+}
+
+.manifesto-opening {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0 4.5rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.manifesto-opening-spacer {
+  display: none;
+}
+
+.manifesto-opening-body {
+  width: 100%;
+  max-width: 860px;
+  color: rgb(255 255 255 / 0.8);
+  font-family: 'Aeonik-Thin', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: clamp(1.1875rem, 4.5vw, 1.375rem);
+  line-height: 1.78;
+  letter-spacing: 0.01em;
+}
+
+.manifesto-opening-body p:first-child::first-letter {
+  float: left;
+  margin: 0.11em 0.14em 0 0;
+  color: #fff;
+  font-family: 'Aeonik-Bold', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: calc(2em * 1.78);
+  line-height: 0.78;
+  letter-spacing: 0;
+}
+
+.manifesto-opening-body p {
+  margin: 0;
+}
+
+.manifesto-opening-body p + p {
+  margin-top: 2rem;
 }
 
 .manifesto-section {
@@ -405,6 +445,13 @@ body > div[class*='fixed'][class*='bottom'] a:hover {
 }
 `;
 
+const manifestoOpening = [
+  "In July 2003, the Pentagon tried to build a market for coups, terrorist attacks, and political instability in the Middle East.",
+  "It was called the Policy Analysis Market. The idea was cold enough to sound insane. If markets could gather scattered knowledge better than committees, maybe a price could notice geopolitical risk before an intelligence agency could.",
+  "Senators saw something different. A government backed betting parlor for atrocity. Within a day of public outrage, the project was dead.",
+  "The category did not die with it. It only waited for the world to become less shocked by the idea that uncertainty has a price.",
+];
+
 const manifestoSections = [
   {
     label: "I",
@@ -470,7 +517,7 @@ const manifestoSections = [
 const Manifesto = () => {
   return (
     <>
-      <style>{manifestoCriticalCss}</style>
+      <style dangerouslySetInnerHTML={{ __html: manifestoCriticalCss }} />
       <Navbar />
       <main className="manifesto-page">
         <section className="manifesto-shell">
@@ -499,6 +546,15 @@ const Manifesto = () => {
           </header>
 
           <article className="manifesto-article">
+            <section className="manifesto-opening">
+              <div className="manifesto-opening-spacer" />
+              <div className="manifesto-opening-body">
+                {manifestoOpening.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </section>
+
             {manifestoSections.map((section) => (
               <section
                 key={section.label}

@@ -27,16 +27,16 @@ const handleNavClick = (linkText: string) => {
 
 export const navLinks = [
   {
-    text: "MANIFESTO",
-    link: "/manifesto",
-  },
-  {
     text: "ABOUT",
     link: "/about",
   },
   {
     text: "CAREERS",
     link: "/careers",
+  },
+  {
+    text: "MANIFESTO",
+    link: "/manifesto",
   },
 ];
 

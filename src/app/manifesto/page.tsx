@@ -552,13 +552,6 @@ const Manifesto = () => {
       <Navbar />
       <main className="manifesto-page">
         <section className="manifesto-shell">
-          <Link
-            href="/"
-            className="manifesto-back"
-          >
-            Back to home
-          </Link>
-
           <header className="manifesto-hero">
             <div>
               <p className="manifesto-kicker">

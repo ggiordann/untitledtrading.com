@@ -626,7 +626,7 @@ const Manifesto = () => {
                   />
                 </div>
                 <figcaption className="manifesto-final-caption">
-                  White to move.
+                  Out of book.
                 </figcaption>
               </figure>
               <p className="manifesto-byline">

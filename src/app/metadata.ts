@@ -1,11 +1,11 @@
 export const metadata = {
     title: {
-      default: "Untitled Trading",
+      default: "Untitled Trading: Home",
       template: "%s | Untitled Trading",
     },
     description:
-    "Untitled Trading builds AI-native infrastructure for prediction markets.",
-    keywords: ["prediction markets", "AI trading", "market infrastructure", "quant finance", "algorithmic trading", "machine learning trading", "Adelaide fintech", "automated trading systems"],
+    "Untitled Trading builds AI-native infrastructure for prediction markets. Adelaide-based fintech startup revolutionizing market infrastructure.",
+    keywords: ["prediction markets", "AI trading", "market infrastructure", "quant finance", "algorithmic trading", "machine learning trading", "Adelaide fintech", "automated trading systems", "AI infrastructure", "prediction market platform", "Adelaide trading", "Australian fintech", "market technology"],
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',
@@ -35,14 +35,14 @@ export const metadata = {
     openGraph: {
       url: "https://untitledtrading.com/",
       type: "website",
-      locale: "en_US",
+      locale: "en_AU",
       siteName: "Untitled Trading",
       title: {
         default: "UNTITLED TRADING",
         template: "%s | untitledtrading.com",
       },
       description:
-      "AI-native prediction market infrastructure.",
+      "AI-native prediction market infrastructure. Adelaide-based fintech building the future of market technology.",
       images: [
         {
           url: "https://untitledtrading.com/head/embed.png",

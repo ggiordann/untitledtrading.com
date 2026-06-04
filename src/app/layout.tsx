@@ -13,8 +13,24 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={`${inter.className}`}>
+    <html className={`${inter.className}`} lang="en-AU">
       <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <link rel="canonical" href="https://untitledtrading.com" />
+        <link rel="alternate" hrefLang="en-AU" href="https://untitledtrading.com" />
+        <link rel="alternate" hrefLang="en" href="https://untitledtrading.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://untitledtrading.com" />
+        <meta name="geo.placename" content="Adelaide" />
+        <meta name="geo.region" content="AU-SA" />
+        <meta name="geo.position" content="-34.9285;138.6007" />
+        <meta name="ICBM" content="-34.9285, 138.6007" />
+        <meta name="language" content="English" />
+        <meta name="author" content="Untitled Trading" />
+        <meta name="copyright" content="Copyright 2025 Untitled Trading" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#000000" />
         <title>{metadata.title.default}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords.join(', ')} />
@@ -24,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta property="og:title" content={metadata.openGraph.title.default} />
         <meta property="og:description" content={metadata.openGraph.description} />
         <meta property="og:image" content={metadata.openGraph.images[0].url} />
+        <meta property="og:locale" content="en_AU" />
         <meta name="twitter:card" content={metadata.twitter.card} />
         <meta name="twitter:site" content={metadata.twitter.site} />
         <meta name="twitter:creator" content={metadata.twitter.creator} />

@@ -5,14 +5,21 @@ module.exports = {
   changefreq: 'weekly',
   priority: 0.7,
   sitemapSize: 5000,
-  exclude: ['/api/*'],
+  exclude: ['/api/*', '/play', '/projects'],
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/*', '/_next/*', '/node_modules/*'],
+        disallow: ['/api/*', '/_next/*', '/node_modules/*', '/play', '/projects'],
       },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+      },
+    ],
+    additionalSitemaps: [
+      'https://www.untitledtrading.com/sitemap.xml',
     ],
   },
   transform: async (config, path) => {
@@ -26,8 +33,11 @@ module.exports = {
     } else if (path === '/about') {
       priority = 0.9;
       changefreq = 'monthly';
-    } else if (path === '/projects') {
-      priority = 0.8;
+    } else if (path === '/careers') {
+      priority = 0.85;
+      changefreq = 'weekly';
+    } else if (path === '/manifesto') {
+      priority = 0.85;
       changefreq = 'monthly';
     }
     

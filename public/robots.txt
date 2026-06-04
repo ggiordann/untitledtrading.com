@@ -1,12 +1,31 @@
 # robots.txt for untitledtrading.com
+# Main policy for all user-agents
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_next/
 Disallow: /node_modules/
 
+# Specific policies for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
 # Sitemap
 Sitemap: https://www.untitledtrading.com/sitemap.xml
+Sitemap: https://www.untitledtrading.com/sitemap-0.xml
 
-# Crawl delay
+# Crawl delay for general bots
 Crawl-delay: 1
+Request-rate: 1/10s

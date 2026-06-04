@@ -136,12 +136,6 @@ const Hero = () => {
           <div className="flex flex-col space-y-4 px-5">
             <h1 className="tracking-tight font-voyager-thin text-[21px]">learn more</h1>
             <div className="flex flex-col pb-20 md:pb-0 pt-6 md:pt-0 lg:pt-0 sm:flex-row w-full space-y-3 md:space-y-0 md:space-x-4">
-              <Button
-                text="MANIFESTO"
-                link="/manifesto"
-                className="w-full text-center md:text-left sm:w-auto"
-                event={`'manifestoClicked', {property: 'value'}`}
-              ></Button>
               <Button 
                 text="ABOUT"
                 link="/about"
@@ -153,6 +147,12 @@ const Hero = () => {
                 link="/careers"
                 className="w-full text-center md:text-left sm:w-auto"
                 event={`'careersClicked', {property: 'value'}`}
+              ></Button>
+              <Button
+                text="MANIFESTO"
+                link="/manifesto"
+                className="w-full text-center md:text-left sm:w-auto"
+                event={`'manifestoClicked', {property: 'value'}`}
               ></Button>
             </div>
           </div>

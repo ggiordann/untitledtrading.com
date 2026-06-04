@@ -1,6 +1,8 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import gameTheoryImage from "./gametheory.jpg";
 
 export const metadata = {
   title: "Untitled Trading",
@@ -317,6 +319,35 @@ a {
   line-height: 1.08;
 }
 
+.manifesto-final-board {
+  width: min(100%, 760px);
+  margin: 3.25rem 0 0;
+}
+
+.manifesto-final-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.42;
+  overflow: hidden;
+  background: #000;
+}
+
+.manifesto-final-image {
+  object-fit: cover;
+  object-position: 50% 54%;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.manifesto-final-caption {
+  margin: 1rem 0 0;
+  color: rgb(255 255 255 / 0.5);
+  font-family: 'Graebenbach-Mono-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+}
+
 .manifesto-contact {
   display: inline-flex;
   margin-top: 2.5rem;
@@ -461,7 +492,7 @@ const manifestoSections = [
       "Markets give public stories too much time to survive. Information arrives unevenly, attention moves slowly, and stories keep their shape longer than they deserve. The obvious reaction is usually crowded. What matters is the discipline to stay honest while the crowd is still forming its view.",
       "Untitled Trading is built around that discipline. We do not want the clean story after the outcome, because the clean story is usually just hindsight wearing a suit. Our work sits earlier, when reality remains ugly, the evidence stays partial, and acting appears premature to those who need consensus before they can move.",
       "Most public thinking treats the future as something to narrate. Markets punish that habit. One can sound intelligent about politics, sport, regulation, science, or technology, then vanish before settlement asks what the sentence was worth. Prediction markets make the sentence heavier. They force belief to take a form that can be attacked.",
-      "This is why the category matters more than its current reputation. People still talk about prediction markets as if they are a strange entertainment layer on top of the news, because early categories are always judged by their least serious use case. The final shape is different. A liquid market for outcomes turns the future into a public surface, and the first groups that learn to read that surface well will not look like traditional media, traditional finance, or traditional research.",
+      "This is why the category matters more than its current reputation. People still talk about prediction markets as if they are a strange entertainment layer on top of the news, because early categories are always judged by their least critical use case. The final shape is different. A liquid market for outcomes turns the future into a public surface, and the first groups that learn to read that surface well will not look like traditional media, traditional finance, or traditional research.",
       "They will look like people who became uncomfortable with unpriced uncertainty before everyone else did.",
     ],
   },
@@ -471,7 +502,7 @@ const manifestoSections = [
     paragraphs: [
       "The internet made opinion infinite and memory weak. Forecasts about elections, product launches, court decisions, macro risk, cultural shifts, and scientific claims can gather status without carrying much consequence. Even when the archive remembers the sentence, the social system rarely remembers the cost of being wrong.",
       "A prediction market changes the cost structure. The statement has to become a price, and once that happens, another person can take the other side. It may still be wrong for hours, weeks, or months. Early markets are imperfect, uneven, and sometimes badly designed. Wrongness becomes organized enough for another mind to fight it.",
-      "Belief should not be protected from contact with time. A forecast that never settles becomes decoration, even when it sounds serious. Exposure gives the idea a body. It can be wounded, defended, resized, abandoned, or vindicated. That is closer to philosophy than gambling, because the question is no longer whether someone can persuade a room. What matters is whether their model survives a world that does not care how persuasive it sounded.",
+      "Belief should not be protected from contact with time. A forecast that never settles becomes decoration, even when it sounds critical. Exposure gives the idea a body. It can be wounded, defended, resized, abandoned, or vindicated. That is closer to philosophy than gambling, because the question is no longer whether someone can persuade a room. What matters is whether their model survives a world that does not care how persuasive it sounded.",
       "Its moral value is easy to underestimate. Society has too many places where confidence can float without being scored, and too few places where uncertainty is made legible enough to improve decisions. A mayor can announce a policy with ceremonial conviction, a company can insist a product will ship, a research field can praise a result while specialists privately distrust the method. Hidden doubt is everywhere, but most systems give it no graceful path into the open.",
       "Prediction markets give hidden doubt a door. The door is imperfect, sometimes ugly, and sometimes misused, which is why market design and culture matter. Still, a flawed door is better than a locked room. When private knowledge can become public probability before failure becomes undeniable, the institution loses some of its ability to hide inside language.",
       "That is the civic promise. Better markets will not make people wise by default, but they can make certain kinds of foolishness more expensive. They can turn vague claims into measurable expectations, reveal when the crowd is confusing emotional force with likelihood, and create a public record that outlives the news cycle. Over time, a society that learns to read probability becomes harder to hypnotize.",
@@ -483,8 +514,8 @@ const manifestoSections = [
     paragraphs: [
       "AI is making polished thought cheap. The world is already filling with summaries, code, simulations, charts, confident explanations, and arguments that sound correct enough to pass through a tired room. When presentation collapses toward zero cost, the scarce skill becomes taste. Taste is the ability to know which game is worth playing, which constraint controls the outcome, and which clean abstraction is quietly false.",
       "Prediction markets reward that kind of taste because every domain becomes learnable only after you stop respecting its official costume. Once an outcome has a price, the label matters less than the system underneath it. The surface opens the door, then the real work begins below it.",
-      "This is why being pigeonholed destroys judgment. People are trained to move through fields in straight lines, collecting approved signals and mistaking the route for the territory. A serious operator has to learn faster than the institution, then leave the institution's map without becoming sloppy. Tourism across domains is useless. What matters is understanding a system without becoming captured by its costume.",
-      "We believe the last job is quantitative finance, as every serious field moves toward a feedback loop. Markets were the first obvious laboratory because the score was fast and brutal, but the same logic is spreading through everything that can be simulated, measured, forecasted, or optimized. Prediction markets sit at the center of that shift because they connect the generalist's ability to learn a system with the trader's need to be right under risk.",
+      "This is why being pigeonholed destroys judgment. People are trained to move through fields in straight lines, collecting approved signals and mistaking the route for the territory. A critical operator has to learn faster than the institution, then leave the institution's map without becoming sloppy. Tourism across domains is useless. What matters is understanding a system without becoming captured by its costume.",
+      "We believe the last job is quantitative, as every empirical field moves toward a feedback loop. Markets were the first obvious laboratory because the score was fast and brutal, but the same logic is spreading through everything that can be simulated, measured, forecasted, or optimized. Prediction markets sit at the center of that shift because they connect the generalist's ability to learn a system with the trader's need to be right under risk.",
       "Untitled Trading should be built for people who kept the dangerous part of themselves alive. The person we want reaches past coder, analyst, sports obsessive, political addict, or a finance kid with a terminal. We want the mind that can enter an unfamiliar system, ignore the prestige map, and turn private judgment into disciplined work.",
       "That temperament is rare because it asks for traits that normally fight each other. You need patience that stays hard, aggression disciplined by rigor, active humility, and enough arrogance to take a position—but only the kind that dies when the record kills it. Most people can hold one side of that tension for a while, then their psychology leaks into the trade. The company has to become a structure that keeps the tension productive.",
     ],
@@ -495,7 +526,7 @@ const manifestoSections = [
     paragraphs: [
       "Prediction markets are yet to reach maturity. Liquidity is uneven, resolution standards are young, regulation will reshape the field, interfaces still feel early, and too much of the culture carries the smell of a casino. None of that makes the category less important. Early rails are supposed to look rough before the world understands what will run on them.",
       "The best builders make ambition visible through infrastructure before the category becomes socially safe. Jeffery Yan did not make Hyperliquid interesting by asking the world to admire a startup identity. The important part was stranger and more demanding. A small team chose a hard technical standard, refused the comfortable funding path, let users own meaningful upside, and kept building until markets that had traded one way for a century began to bend around new rails.",
-      "Untitled Trading has to carry that standard into prediction markets. A clever content brand around event odds would be the wrong ambition. The work is to build systems, culture, and judgment around the moment probability becomes public. If this category becomes serious, someone will help define the operating discipline early. We intend to be one of those groups.",
+      "Untitled Trading has to carry that standard into prediction markets. A clever content brand around event odds would be the wrong ambition. The work is to build systems, culture, and judgment around the moment probability becomes public. If this category becomes empirical, someone will help define the operating discipline early. We intend to be one of those groups.",
       "Respectability is usually consensus after the hard part is already over. By the time a market looks clean, the most interesting assumptions have often been professionalized into language everyone can repeat. Roughness is where builders matter. It is also where traders with taste can see which constraints matter and which ones will fade.",
       "There are ethical lines here, and pretending otherwise would be dishonest. Some markets should never exist. Certain incentives remain ugly even when they create liquidity. A society that turns every human consequence into entertainment deserves the criticism it receives. The mature version uses markets as instruments for foresight, accountability, and risk discovery without letting spectacle become the point.",
       "That version benefits institutions and outsiders simultaneously. Companies become less able to deceive themselves, forecasts grow measurable and consequential, research communities surface doubt earlier, citizens acquire a new sense organ for uncertainty, and outsiders with real knowledge can challenge stale authority.",
@@ -508,7 +539,7 @@ const manifestoSections = [
       "Untitled Trading has to win in the quiet places first. The work is not loud. Small advantages matter when they are real, repeatable, and protected from the emotional habits that destroy them.",
       "Our standard is practical before it becomes philosophical. The record beats the myth, evidence beats narrative, and tools should make our thinking harder to corrupt. When a thesis becomes beautiful and the evidence turns ugly, the evidence wins. A trade that works for the wrong reason should make pride feel suspicious, while a loss that exposes a better process has to become useful before the ego turns it into a story.",
       "The first opponent is internal. Revenge arrives dressed as conviction, overtrading borrows the feeling of work, consensus offers the narcotic of safety, and contrarianism can look like courage when it is only boredom with better posture. A market will punish all of it eventually, but we would rather do the punishment ourselves while it is still cheap.",
-      "We want a company that feels like a quiet room full of people trying to hear a signal before the rest of the world has language for it. The work should be obsessive without becoming loud. Care has to extend into the unglamorous parts, because that is where a serious culture proves itself.",
+      "We want a company that feels like a quiet room full of people trying to hear a signal before the rest of the world has language for it. The work should be obsessive without becoming loud. Care has to extend into the unglamorous parts, because that is where a systemic culture proves itself.",
       "Fate is a word for surrender when uncertainty feels too large. We do not use it that way. The future remains partly unknowable, and pretending otherwise is how traders die. But uncertainty is not permission to drift. The work is to stay alert, stay measured, and update before pride turns a position into an identity.",
     ],
   },
@@ -583,6 +614,21 @@ const Manifesto = () => {
               <p className="manifesto-final-line">
                 We bid against fate.
               </p>
+              <figure className="manifesto-final-board">
+                <div className="manifesto-final-image-frame">
+                  <Image
+                    src={gameTheoryImage}
+                    alt="Black and white chessboard with pawns facing larger pieces"
+                    className="manifesto-final-image"
+                    fill
+                    sizes="(min-width: 1024px) 760px, calc(100vw - 3rem)"
+                    priority={false}
+                  />
+                </div>
+                <figcaption className="manifesto-final-caption">
+                  White to move.
+                </figcaption>
+              </figure>
               <p className="manifesto-byline">
                 — Giordan Masen on behalf of Untitled Trading
               </p>

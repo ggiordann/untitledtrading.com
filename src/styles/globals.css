@@ -75,29 +75,147 @@
   }
 }
 
+html,
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+}
+
+body {
+  min-width: 320px;
+  font-family: 'Aeonik-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
 .font-graebenbach-mono-regular {
   font-family: 'Graebenbach-Mono-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 400;
 }
 
 .font-voyager-thin {
   font-family: 'Voyager-Thin', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 300;
 }
 
-.font-aeonik {
-    font-family: 'Aeonik-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-      Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+.font-aeonik,
+.font-aeonik-regular {
+  font-family: 'Aeonik-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 400;
+}
+
+.font-aeonik-medium {
+  font-family: 'Aeonik-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 500;
 }
 
 .font-aeonik-thin {
   font-family: 'Aeonik-Thin', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 300;
 }
 
 .font-aeonik-bold {
   font-family: 'Aeonik-Bold', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 700;
+}
+
+.fixed-header-container header {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.fixed-header-container header > a .nav-wordmark {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  margin: 0;
+  color: #fff;
+  font-family: 'Aeonik-Bold', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.fixed-header-container nav {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.fixed-header-container nav a {
+  color: rgb(255 255 255 / 0.5);
+  font-family: 'Graebenbach-Mono-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+}
+
+.fixed-header-container nav a:hover {
+  color: #fff;
+}
+
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 2rem 1.25rem;
+  color: #fff;
+}
+
+.site-footer > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.site-footer h1 {
+  margin: 0;
+  font-family: 'Aeonik-Bold', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.site-footer h1:first-child {
+  font-size: clamp(1.5rem, 8vw, 5.75rem);
+}
+
+.site-footer h1:nth-child(2) {
+  overflow-wrap: anywhere;
+  text-align: end;
+  font-size: clamp(1rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.site-footer p {
+  width: 100%;
+  margin: 2.5rem 0 0;
+  opacity: 0.6;
+  font-family: 'Aeonik-Regular', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
 }
 
 .manifesto-page {
@@ -347,6 +465,10 @@
 }
 
 @media (min-width: 768px) {
+  .fixed-header-container header > a .nav-wordmark {
+    font-size: 18px;
+  }
+
   .manifesto-shell {
     padding-right: 2.5rem;
     padding-left: 2.5rem;
@@ -386,6 +508,12 @@
 
   .manifesto-final-spacer {
     display: block;
+  }
+
+  .site-footer {
+    padding-right: 6rem;
+    padding-bottom: 2.5rem;
+    padding-left: 6rem;
   }
 
 }

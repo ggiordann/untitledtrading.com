@@ -76,7 +76,7 @@ a {
   width: 100%;
 }
 
-.fixed-header-container header > a p {
+.fixed-header-container header > a .nav-wordmark {
   position: absolute;
   top: 2rem;
   left: 2rem;
@@ -419,7 +419,7 @@ body > div[class*='fixed'][class*='bottom'] a:hover {
 }
 
 @media (min-width: 768px) {
-  .fixed-header-container header > a p {
+  .fixed-header-container header > a .nav-wordmark {
     font-size: 18px;
   }
 

@@ -1,19 +1,15 @@
 import React from 'react';
-import Head from 'next/head';
 import "../styles/fonts.css";
 import "../styles/globals.css";
-import { Inter } from "next/font/google";
 import { metadata } from './metadata';
 import SocialIcons from '../components/SocialIcons';
 import StructuredData from '../components/StructuredData';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={`${inter.className}`} lang="en-AU">
+    <html lang="en-AU">
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -58,4 +54,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 };
-

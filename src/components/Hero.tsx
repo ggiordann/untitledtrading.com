@@ -123,7 +123,7 @@ const Hero = () => {
                 <CardSpotlight 
                   className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black min-h-[6.5rem] md:min-h-[8.5rem]">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">gap events per MONTH</p>
+                    <p className="font-aeonik-medium text-[18px]">gap events per month</p>
                   </div>
                   <p className="font-aeonik-bold text-[36px]">13.0M</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">

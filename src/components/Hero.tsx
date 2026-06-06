@@ -101,33 +101,33 @@ const Hero = () => {
             <div className="flex flex-col pb-20 md:pb-0 pt-6 md:pt-0 lg:pt-0 sm:flex-row w-full space-y-3 md:space-y-0 md:space-x-4">
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 w-full">
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black min-h-[6.5rem] md:min-h-[8.5rem]">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">mean latency</p>
+                    <p className="font-aeonik-medium text-[18px]">subscribed markets</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">18ms</p>
+                  <p className="font-aeonik-bold text-[36px]">40K</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    internal system response time
+                    live Polymarket order books monitored
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black min-h-[6.5rem] md:min-h-[8.5rem]">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">market index</p>
+                    <p className="font-aeonik-medium text-[18px]">events per minute</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">10K+</p>
+                  <p className="font-aeonik-bold text-[36px]">1.79M</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    market and event records indexed
+                    order book events processed
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
-                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black h-[6.5rem] md:h-40">
+                  className="flex-1 opacity-80 hover:opacity-100 transition-all duration-300 rounded-xl border border-[#ffffff33] p-4 space-y-2 bg-black min-h-[6.5rem] md:min-h-[8.5rem]">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="font-aeonik-medium text-[18px]">data throughput</p>
+                    <p className="font-aeonik-medium text-[18px]">gap events per MONTH</p>
                   </div>
-                  <p className="font-aeonik-bold text-[36px]">420K+</p>
+                  <p className="font-aeonik-bold text-[36px]">13.0M</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    market events processed across internal systems
+                    asset data gap events observed
                   </p>
                 </CardSpotlight>
               </div>

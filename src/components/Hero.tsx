@@ -107,7 +107,7 @@ const Hero = () => {
                   </div>
                   <p className="font-aeonik-bold text-[36px]">40K</p>
                   <p className="opacity-70 font-aeonik-regular text-[14px] leading-[130%]">
-                    live Polymarket order books monitored
+                    live order books monitored
                   </p>
                 </CardSpotlight>
                 <CardSpotlight 
